@@ -13,6 +13,8 @@ set(BUILD_DIR
     "${PROJECT_SOURCE_DIR}/build/")
 set(SOURCES_DIR        
     "${PROJECT_SOURCE_DIR}/src/")
+set(INCLUDES_DIR
+    "${PROJECT_SOURCE_DIR}/src/")
 set(SOURCES
     ${SOURCES_DIR}/SynthEditor.cpp
     ${SOURCES_DIR}/SynthAudioProcessor.cpp
@@ -46,6 +48,8 @@ juce_generate_juce_header(Synth)
 target_sources(Synth
     PRIVATE ${SOURCES})
 
+target_include_directories(Synth
+    PRIVATE ${INCLUDES})
 target_compile_definitions(Synth
     PUBLIC
         # JUCE_WEB_BROWSER and JUCE_USE_CURL would be on by default, but you might not need them.

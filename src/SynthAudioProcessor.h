@@ -1,6 +1,7 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "typeDefs.h"
 
 //==============================================================================
 class SynthAudioProcessor  : public juce::AudioProcessor
@@ -41,8 +42,10 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
-
+    
+    // PARAMETERS :
+    static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
+    juce::AudioProcessorValueTreeState Params{ *this, nullptr, "Params", createParameterLayout() };
 private:
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthAudioProcessor)
 };
