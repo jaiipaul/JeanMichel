@@ -1,7 +1,8 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "typeDefs.h"
+#include "Synth/SynthVoice.h"
+#include "Synth/SynthSound.h"
 
 //==============================================================================
 class SynthAudioProcessor  : public juce::AudioProcessor
@@ -47,5 +48,7 @@ public:
     static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     juce::AudioProcessorValueTreeState Params{ *this, nullptr, "Params", createParameterLayout() };
 private:
+
+    juce::Synthesiser Synth;
     //==============================================================================
 };
