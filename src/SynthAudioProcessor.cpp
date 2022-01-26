@@ -129,7 +129,7 @@ void SynthAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 void SynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
                                               juce::MidiBuffer& midiMessages)
 {
-    juce::ignoreUnused (midiMessages);
+    //juce::ignoreUnused (midiMessages);
 
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
@@ -139,10 +139,12 @@ void SynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
         buffer.clear (i, 0, buffer.getNumSamples());
 
     for(int i = 0; i < Synth.getNumVoices(); i++){
-        if(auto voice = dynamic_cast<juce::SynthesiserVoice*>(Synth.getVoice(i))){
+        if(auto voice = dynamic_cast<SynthVoice*>(Synth.getVoice(i))){
             // CONTROLS UPDATE
+
         }
     }
+    
     Synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 }
 
@@ -154,8 +156,9 @@ bool SynthAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* SynthAudioProcessor::createEditor()
 {
-    return new juce::GenericAudioProcessorEditor(this);
-    //return new SynthEditor (*this);
+    //std::cout << Params.getRawParameterValue("ADSR1__Attack") << std::endl;
+    //return new juce::GenericAudioProcessorEditor(*this);
+    return new SynthEditor (*this);
 }
 
 //==============================================================================
@@ -178,88 +181,106 @@ void SynthAudioProcessor::setStateInformation (const void* data, int sizeInBytes
 juce::AudioProcessorValueTreeState::ParameterLayout SynthAudioProcessor::createParameterLayout(){
     juce::AudioProcessorValueTreeState::ParameterLayout layout;
     //"SUB_VCO"
-        layout.add(std::make_unique<juce::AudioParameterInt>("SUB_VCO_OctaveDown", "SUB_VCO_OctaveDown", 1, 2, 1));               
-        layout.add(std::make_unique<juce::AudioParameterBool>("SUB_VCO_Sine", "SUB_VCO_Sine", true));
-        layout.add(std::make_unique<juce::AudioParameterBool>("SUB_VCO_Triangle", "SUB_VCO_Triangle", false));
-        layout.add(std::make_unique<juce::AudioParameterBool>("SUB_VCO_Saw", "SUB_VCO_Saw", false));
-        layout.add(std::make_unique<juce::AudioParameterBool>("SUB_VCO_Square", "SUB_VCO_Square", false));
+        std::unique_ptr<juce::AudioProcessorParameterGroup> Sub_Vco_params =
+            std::make_unique<juce::AudioProcessorParameterGroup>("SUB_VCO", "SUB_VCO", "__");
+        Sub_Vco_params->addChild(std::make_unique<juce::AudioParameterInt>("OctaveDown", "OctaveDown", 1, 2, 1));               
+        Sub_Vco_params->addChild(std::make_unique<juce::AudioParameterInt>("Wave", "Wave", 1, 4, 1));
+  
     //"VCO1"
-        layout.add(std::make_unique<juce::AudioParameterFloat>("VCO1_LFO_Freq_intensity", "VCO1_LFO_Freq_intensity", 
+        std::unique_ptr<juce::AudioProcessorParameterGroup> Vco1_params =
+            std::make_unique<juce::AudioProcessorParameterGroup>("VCO1", "VCO1", "__");
+        Vco1_params->addChild(std::make_unique<juce::AudioParameterFloat>("LFO_Freq_intensity", "LFO_Freq_intensity", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 0.f));
-        layout.add(std::make_unique<juce::AudioParameterFloat>("VCO1_LFO_Pw_intensity", "VCO1_LFO_Pw_intensity", 
+        Vco1_params->addChild(std::make_unique<juce::AudioParameterFloat>("LFO_Pw_intensity", "LFO_Pw_intensity", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 0.f));
-        layout.add(std::make_unique<juce::AudioParameterBool>("VCO1_Sine", "VCO1_Sine", true));
-        layout.add(std::make_unique<juce::AudioParameterBool>("VCO1_Triangle", "VCO1_Triangle", false));
-        layout.add(std::make_unique<juce::AudioParameterBool>("VCO1_Saw", "VCO1_Saw", false));
-        layout.add(std::make_unique<juce::AudioParameterBool>("VCO1_Square", "VCO1_Square", false));
+        Vco1_params->addChild(std::make_unique<juce::AudioParameterInt>("Wave", "Wave", 1, 4, 1));
     //"VCO2"
-        layout.add(std::make_unique<juce::AudioParameterFloat>("VCO2_Detune", "VCO2_Detune", 
+        std::unique_ptr<juce::AudioProcessorParameterGroup> Vco2_params =
+            std::make_unique<juce::AudioProcessorParameterGroup>("VCO2", "VCO2", "__");
+        Vco2_params->addChild(std::make_unique<juce::AudioParameterFloat>("Detune", "Detune", 
                                        juce::NormalisableRange<float>(0.f, 12.f, 0.001f, 1.f), 0.f));
-        layout.add(std::make_unique<juce::AudioParameterFloat>("VCO2_LFO_Freq_intensity", "VCO2_LFO_Freq_intensity", 
+        Vco2_params->addChild(std::make_unique<juce::AudioParameterFloat>("LFO_Freq_intensity", "LFO_Freq_intensity", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 0.f));
-        layout.add(std::make_unique<juce::AudioParameterFloat>("VCO2_LFO_Pw_intensity", "VCO2_LFO_Pw_intensity", 
+        Vco2_params->addChild(std::make_unique<juce::AudioParameterFloat>("LFO_Pw_intensity", "LFO_Pw_intensity", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 0.f));
-        layout.add(std::make_unique<juce::AudioParameterBool>("VCO2_Sine", "VCO2_Sine", true));
-        layout.add(std::make_unique<juce::AudioParameterBool>("VCO2_Triangle", "VCO2_Triangle", false));
-        layout.add(std::make_unique<juce::AudioParameterBool>("VCO2_Saw", "VCO2_Saw", false));
-        layout.add(std::make_unique<juce::AudioParameterBool>("VCO2_Square", "VCO2_Square", false));
+        Vco2_params->addChild(std::make_unique<juce::AudioParameterInt>("Wave", "Wave", 1, 4, 1));
     //"LFO1"
-        layout.add(std::make_unique<juce::AudioParameterFloat>("LFO1_Rate", "LFO1_Rate", 
+        std::unique_ptr<juce::AudioProcessorParameterGroup> Lfo1_params =
+            std::make_unique<juce::AudioProcessorParameterGroup>("LFO1", "LFO1", "__");
+        Lfo1_params->addChild(std::make_unique<juce::AudioParameterFloat>("Rate", "Rate", 
                                    juce::NormalisableRange<float>(0.5f, 20.f, 0.001f, 1.f), 1.f));
-        layout.add(std::make_unique<juce::AudioParameterBool>("LFO1_Sine", "LFO1_Sine", true));
-        layout.add(std::make_unique<juce::AudioParameterBool>("LFO1_Triangle", "LFO1_Triangle", false));
-        layout.add(std::make_unique<juce::AudioParameterBool>("LFO1_Saw", "LFO1_Saw", false));
-        layout.add(std::make_unique<juce::AudioParameterBool>("LFO1_Square", "LFO1_Square", false));
+        Lfo1_params->addChild(std::make_unique<juce::AudioParameterInt>("Wave", "Wave", 1, 4, 1));
+
     //"LFO2"
-        layout.add(std::make_unique<juce::AudioParameterFloat>("LFO2_Rate", "LFO2_Rate", 
+        std::unique_ptr<juce::AudioProcessorParameterGroup> Lfo2_params =
+            std::make_unique<juce::AudioProcessorParameterGroup>("LFO2", "LFO2", "__");
+        Lfo2_params->addChild(std::make_unique<juce::AudioParameterFloat>("Rate", "Rate", 
                                    juce::NormalisableRange<float>(0.5f, 20.f, 0.001f, 1.f), 1.f));
-        layout.add(std::make_unique<juce::AudioParameterBool>("LFO2_Sine", "LFO2_Sine", true));
-        layout.add(std::make_unique<juce::AudioParameterBool>("LFO2_Triangle", "LFO2_Triangle", false));
-        layout.add(std::make_unique<juce::AudioParameterBool>("LFO2_Saw", "LFO2_Saw", false));
-        layout.add(std::make_unique<juce::AudioParameterBool>("LFO2_Square", "LFO2_Square", false));
+        Lfo2_params->addChild(std::make_unique<juce::AudioParameterInt>("Wave", "Wave", 1, 4, 1));
 
     //"VCF"
-        layout.add(std::make_unique<juce::AudioParameterFloat>("VCF_Cutoff", "VCF_Cutoff", 
+        std::unique_ptr<juce::AudioProcessorParameterGroup> Vcf_params =
+            std::make_unique<juce::AudioProcessorParameterGroup>("VCF", "VCF", "__");
+        Vcf_params->addChild(std::make_unique<juce::AudioParameterFloat>("Cutoff", "Cutoff", 
                                    juce::NormalisableRange<float>(20.f, 20000.f, 1.f, 1.f), 20000.f));
-        layout.add(std::make_unique<juce::AudioParameterFloat>("VCF_Resonance", "VCF_Resonance", 
+        Vcf_params->addChild(std::make_unique<juce::AudioParameterFloat>("Resonance", "Resonance", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 0.f));
-        layout.add(std::make_unique<juce::AudioParameterFloat>("VCF_Drive", "VCF_Drive", 
+        Vcf_params->addChild(std::make_unique<juce::AudioParameterFloat>("Drive", "Drive", 
                                    juce::NormalisableRange<float>(1.f, 2.f, 0.001f, 1.f), 0.f));
         
-        layout.add(std::make_unique<juce::AudioParameterFloat>("VCF_LFO_intensity", "VCF_LFO_intensity", 
+        Vcf_params->addChild(std::make_unique<juce::AudioParameterFloat>("LFO_intensity", "LFO_intensity", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 0.f));
-        layout.add(std::make_unique<juce::AudioParameterFloat>("VCF_ENV_intensity", "VCF_ENV_intensity", 
+        Vcf_params->addChild(std::make_unique<juce::AudioParameterFloat>("ENV_intensity", "ENV_intensity", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 1.f));
     //"VCA"
-        layout.add(std::make_unique<juce::AudioParameterFloat>("VCA_Volume", "VCA_Volume", 
+        std::unique_ptr<juce::AudioProcessorParameterGroup> Vca_params =
+            std::make_unique<juce::AudioProcessorParameterGroup>("VCA", "VCA", "__");
+        Vca_params->addChild(std::make_unique<juce::AudioParameterFloat>("Volume", "Volume", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 0.95f));
-        layout.add(std::make_unique<juce::AudioParameterFloat>("VCA_ENV_intensity", "VCA_ENV_intensity", 
+        Vca_params->addChild(std::make_unique<juce::AudioParameterFloat>("ENV_intensity", "ENV_intensity", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 1.f));
     //"MIXER"
-        layout.add(std::make_unique<juce::AudioParameterFloat>("MIXER_SUB_VCO_Volume", "MIXER_SUB_VCO_Volume", 
+        std::unique_ptr<juce::AudioProcessorParameterGroup> Mixer_params =
+            std::make_unique<juce::AudioProcessorParameterGroup>("MIXER", "MIXER", "__");
+        Mixer_params->addChild(std::make_unique<juce::AudioParameterFloat>("SUB_VCO_Volume", "SUB_VCO_Volume", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 0.f));            
-        layout.add(std::make_unique<juce::AudioParameterFloat>("MIXER_VCO1_Volume", "MIXER_VCO1_Volume", 
+        Mixer_params->addChild(std::make_unique<juce::AudioParameterFloat>("VCO1_Volume", "VCO1_Volume", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 0.95f));            
-        layout.add(std::make_unique<juce::AudioParameterFloat>("MIXER_VCO2_Volume", "MIXER_VCO2_Volume", 
+        Mixer_params->addChild(std::make_unique<juce::AudioParameterFloat>("VCO2_Volume", "VCO2_Volume", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 0.95f)); 
     //"ADSR1"
-        layout.add(std::make_unique<juce::AudioParameterFloat>("ADSR1_Attack", "ADSR1_Attack", 
+        std::unique_ptr<juce::AudioProcessorParameterGroup> Adsr1_params =
+            std::make_unique<juce::AudioProcessorParameterGroup>("ADSR1", "ADSR1", "__");
+        Adsr1_params->addChild(std::make_unique<juce::AudioParameterFloat>("Attack", "Attack", 
+                                   juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 0.7f));
+        Adsr1_params->addChild(std::make_unique<juce::AudioParameterFloat>("Decay", "Decay", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 0.f));
-        layout.add(std::make_unique<juce::AudioParameterFloat>("ADSR1_Decay", "ADSR1_Decay", 
-                                   juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 0.f));
-        layout.add(std::make_unique<juce::AudioParameterFloat>("ADSR1_Sustain", "ADSR1_Sustain", 
+        Adsr1_params->addChild(std::make_unique<juce::AudioParameterFloat>("Sustain", "Sustain", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 1.f));
-        layout.add(std::make_unique<juce::AudioParameterFloat>("ADSR1_Release", "ADSR1_Release", 
+        Adsr1_params->addChild(std::make_unique<juce::AudioParameterFloat>("Release", "Release", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 0.f));
     //"ADSR2"
-        layout.add(std::make_unique<juce::AudioParameterFloat>("ADSR2_Attack", "ADSR2_Attack", 
+        std::unique_ptr<juce::AudioProcessorParameterGroup> Adsr2_params =
+            std::make_unique<juce::AudioProcessorParameterGroup>("ADSR2", "ADSR2", "__");
+        Adsr2_params->addChild(std::make_unique<juce::AudioParameterFloat>("Attack", "Attack", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 0.f));
-        layout.add(std::make_unique<juce::AudioParameterFloat>("ADSR2_Decay", "ADSR2_Decay", 
+        Adsr2_params->addChild(std::make_unique<juce::AudioParameterFloat>("Decay", "Decay", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 0.f));
-        layout.add(std::make_unique<juce::AudioParameterFloat>("ADSR2_Sustain", "ADSR2_Sustain", 
+        Adsr2_params->addChild(std::make_unique<juce::AudioParameterFloat>("Sustain", "Sustain", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 1.f));
-        layout.add(std::make_unique<juce::AudioParameterFloat>("ADSR2_Release", "ADSR2_Release", 
+        Adsr2_params->addChild(std::make_unique<juce::AudioParameterFloat>("Release", "Release", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 0.f));
+
+    layout.add(std::move(Sub_Vco_params));
+    layout.add(std::move(Vco1_params));
+    layout.add(std::move(Vco2_params));
+    layout.add(std::move(Lfo1_params));
+    layout.add(std::move(Lfo2_params));
+    layout.add(std::move(Vcf_params));
+    layout.add(std::move(Vca_params));
+    layout.add(std::move(Mixer_params));
+    layout.add(std::move(Adsr1_params));
+    layout.add(std::move(Adsr2_params));
     return(layout);
 }
 //==============================================================================

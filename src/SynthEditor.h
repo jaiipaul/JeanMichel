@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SynthAudioProcessor.h"
+#include "Synth/UI/ADSR_Section.h"
 
 //==============================================================================
 class SynthEditor  : public juce::AudioProcessorEditor
@@ -14,9 +15,10 @@ public:
     void resized() override;
 
 private:
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
+    
     SynthAudioProcessor& processorRef;
+    ADSR_section ADSR1;
+   
 
     //JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthEditor)
 };

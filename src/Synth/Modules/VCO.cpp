@@ -1,34 +1,37 @@
 #include "VCO.h"
 #include "WaveFunctions.h"
 
+using namespace SynthModules;
+
 VCO::VCO(){
-    SawOsc.initialise(&genSAW);
-    TriOsc.initialise(&genTRI);
-    SqrOsc.initialise(&genSQR);
-    SinOsc.initialise(&genSINE);
+    initialise(&genSAW);
 }
 
 VCO::~VCO(){
 
 }
 
-void VCO::prepare(const juce::dsp::ProcessSpec &spec) noexcept {
-    SawOsc.prepare(spec);
-    TriOsc.prepare(spec);
-    SqrOsc.prepare(spec);
-    SinOsc.prepare(spec);
-}
+void VCO::switchWaveForm(const int type){
+    switch(type){
+        case 0 :
+            initialise(&genSAW);
+            break;
+        
+        case 1 :
+            initialise(&genTRI);
+            break;
 
-void VCO::process(juce::dsp::AudioBlock<float> block){
-    SawOsc.process(juce::dsp::ProcessContextReplacing<float> (block));
-    //TriOsc.process(juce::dsp::ProcessContextReplacing<_sType> (block));
-    //SqrOsc.process(juce::dsp::ProcessContextReplacing<_sType> (block));
-    //SinOsc.process(juce::dsp::ProcessContextReplacing<_sType> (block));
-}   
+        case 2 :
+            initialise(&genSQR);
+            break;
+            
+        case 3 :
+            initialise(&genSINE);
+            break;
 
-void VCO::setFrequency(float freq){
-    SawOsc.setFrequency(freq);
-    TriOsc.setFrequency(freq);
-    SqrOsc.setFrequency(freq);
-    SinOsc.setFrequency(freq);
+        default :
+            jassertfalse;
+            break;
+    }
 }
+ 

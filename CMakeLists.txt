@@ -18,8 +18,12 @@ set(INCLUDES_DIR
 set(SOURCES
     ${SOURCES_DIR}/SynthEditor.cpp
     ${SOURCES_DIR}/SynthAudioProcessor.cpp
+    # MODULES
     ${SOURCES_DIR}/Synth/Modules/VCO.cpp
     ${SOURCES_DIR}/Synth/Modules/WaveFunctions.cpp
+    # UI
+    ${SOURCES_DIR}/Synth/UI/ADSR_section.cpp
+    
     ${SOURCES_DIR}/Synth/SynthVoice.cpp
     ${SOURCES_DIR}/Synth/SynthSound.cpp
 )
@@ -38,7 +42,7 @@ juce_add_plugin(Synth
     PLUGIN_MANUFACTURER_CODE PolF               # A four-character manufacturer id with at least one upper-case character
     PLUGIN_CODE Dem0                            # A unique four-character plugin id with exactly one upper-case character
                                                 # GarageBand 10.3 requires the first letter to be upper-case, and the remaining letters to be lower-case
-    FORMATS AU VST3 Standalone                  # The formats to build. Other valid formats are: AAX Unity VST AU AUv3
+    FORMATS Standalone                  # The formats to build. Other valid formats are: AAX Unity VST AU AUv3
     PRODUCT_NAME "Synth")        # The name of the final executable, which can differ from the target name
 
 
@@ -92,5 +96,5 @@ target_link_libraries(Synth
 #Copying application to bin directory
 add_custom_command(TARGET Synth POST_BUILD
 COMMAND ${CMAKE_COMMAND} -E copy_directory
-    $<TARGET_FILE_DIR:Synth>
+    Synth_artefacts
     ${OUTPUT_DIR})

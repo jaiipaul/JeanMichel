@@ -20,7 +20,10 @@ private:
     juce::AudioBuffer<float> voiceBuffer;
     bool isPrepared { false };
 
-    VCO VCO1;
+    juce::ADSR adsr;
+    juce::ADSR::Parameters adsrParams;
+    
+    SynthModules::VCO VCO1;
     juce::dsp::Gain<float> gain;
 };
 #endif // _SYNTHVOICE_H_
