@@ -4,6 +4,7 @@
 #include <JuceHeader.h>
 #include "SynthSound.h"
 #include "Modules/VCO.h"
+#include "Modules/ADSR.h"
 
 class SynthVoice : public juce::SynthesiserVoice{
 public:
@@ -14,16 +15,16 @@ public:
     void controllerMoved (int controllerNumber, int newControllerValue)override;
 
     void prepareToPlay(double sampleRate, int samplesPerBlock, int numChannels);
+    void update(juce::AudioProcessorValueTreeState& params);
     void renderNextBlock (juce::AudioBuffer<float> &outputBuffer, int startSample, int numSamples)override;
     
 private:
     juce::AudioBuffer<float> voiceBuffer;
     bool isPrepared { false };
 
-    juce::ADSR adsr;
-    juce::ADSR::Parameters adsrParams;
+    SynthModules::cADSR ADSR1{"ADSR1"};
     
-    SynthModules::VCO VCO1;
+    SynthModules::VCO VCO1{"VCO1"};
     juce::dsp::Gain<float> gain;
 };
 #endif // _SYNTHVOICE_H_

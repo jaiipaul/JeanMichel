@@ -15,5 +15,7 @@ void VCA::prepare(const juce::dsp::ProcessSpec &spec) noexcept {
 }
 
 void VCA::process(juce::dsp::AudioBlock<float> block){
+
     gain.process(juce::dsp::ProcessContextReplacing<float> ( audioBlock ))
+    adsr->
 }   

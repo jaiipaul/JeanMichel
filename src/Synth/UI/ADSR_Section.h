@@ -9,7 +9,8 @@ public:
     ADSR_section(){ };
     ~ADSR_section(){ };
 
-    void initSection(juce::AudioProcessorValueTreeState& params);
+    void initSection(std::string ModuleID, juce::AudioProcessorValueTreeState& params);
+    void initSection(std::string ModuleID, juce::AudioProcessorValueTreeState& params, int x, int y, int w, int h);
     void paint (juce::Graphics&) override;
     void resized() override;
 

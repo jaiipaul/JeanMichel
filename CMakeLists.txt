@@ -19,6 +19,9 @@ set(SOURCES
     ${SOURCES_DIR}/SynthEditor.cpp
     ${SOURCES_DIR}/SynthAudioProcessor.cpp
     # MODULES
+    ${SOURCES_DIR}/Synth/Modules/Module.cpp
+    ${SOURCES_DIR}/Synth/Modules/ADSR.cpp
+    #${SOURCES_DIR}/Synth/Modules/VCA.cpp
     ${SOURCES_DIR}/Synth/Modules/VCO.cpp
     ${SOURCES_DIR}/Synth/Modules/WaveFunctions.cpp
     # UI
@@ -94,7 +97,9 @@ target_link_libraries(Synth
         juce::juce_recommended_warning_flags)
 
 #Copying application to bin directory
-add_custom_command(TARGET Synth POST_BUILD
-COMMAND ${CMAKE_COMMAND} -E copy_directory
-    Synth_artefacts
-    ${OUTPUT_DIR})
+#add_custom_command(TARGET Synth POST_BUILD
+#COMMAND ${CMAKE_COMMAND} -E copy
+#    $<TARGET_FILE:Synth>
+#    ${OUTPUT_DIR})
+
+#install(TARGETS Synth DESTINATION ${OUTPUT_DIR})

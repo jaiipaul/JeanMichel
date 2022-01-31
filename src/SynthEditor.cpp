@@ -8,8 +8,9 @@ SynthEditor::SynthEditor (SynthAudioProcessor& p)
     //juce::ignoreUnused (processorRef);
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
-    ADSR1.initSection(processorRef.Params);
+    setSize (1024, 512);
+    ADSR1.initSection("ADSR1", processorRef.Params);
+    addAndMakeVisible(ADSR1);
 }
 
 SynthEditor::~SynthEditor()
@@ -25,10 +26,11 @@ void SynthEditor::paint (juce::Graphics& g)
     g.setColour (juce::Colours::white);
     g.setFont (15.0f);
     g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+
+    ADSR1.paint(g);
 }
 
 void SynthEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    ADSR1.setBounds(getWidth()/2, getHeight()/2, getWidth()/2, getHeight()/2);
 }

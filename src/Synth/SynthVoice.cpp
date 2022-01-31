@@ -6,12 +6,12 @@ bool SynthVoice::canPlaySound (juce::SynthesiserSound *sound) {
 
 void SynthVoice::startNote (int midiNoteNumber, float velocity, juce::SynthesiserSound *sound, int currentPitchWheelPosition){
     VCO1.setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber));
-    adsr.noteOn();
+    ADSR1.noteOn();
 }
 
 void SynthVoice::stopNote (float velocity, bool allowTailOff){
-    adsr.noteOff();
-    if( !allowTailOff || !adsr.isActive()){
+    ADSR1.noteOff();
+    if( !allowTailOff || !ADSR1.isActive()){
         clearCurrentNote();
     }
 }   
@@ -25,7 +25,7 @@ void SynthVoice::controllerMoved (int controllerNumber, int newControllerValue){
 }
 
 void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numOutputChannels){
-    adsr.setSampleRate(sampleRate);
+    ADSR1.setSampleRate(sampleRate);
     
     juce::dsp::ProcessSpec specs;
     specs.sampleRate       = sampleRate;
@@ -37,13 +37,18 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numOu
     gain.prepare(specs);
     gain.setGainLinear(0.1f);
 
-    adsrParams.attack = 0.01f;
-    adsrParams.decay = 0.01f;
-    adsrParams.attack = 1.f;
-    adsrParams.release = 1.f;
-
-    adsr.setParameters(adsrParams);
+    juce::ADSR::Parameters initParams;
+    initParams.attack = 0.f;
+    initParams.decay = 0.f;
+    initParams.sustain = 0.f;
+    initParams.release = 0.f;
+    ADSR1.setParameters(initParams);
+    
     isPrepared = true;
+}
+
+void SynthVoice::update(juce::AudioProcessorValueTreeState& _params){
+    ADSR1.Update(_params);
 }
 
 void SynthVoice::renderNextBlock (juce::AudioBuffer<float> &outputBuffer, int startSample, int numSamples){
@@ -57,12 +62,12 @@ void SynthVoice::renderNextBlock (juce::AudioBuffer<float> &outputBuffer, int st
     juce::dsp::AudioBlock<float> audioBlock { voiceBuffer };
     VCO1.process(juce::dsp::ProcessContextReplacing<float> ( audioBlock ));
     gain.process(juce::dsp::ProcessContextReplacing<float> ( audioBlock ));
-    adsr.applyEnvelopeToBuffer(voiceBuffer, 0, voiceBuffer.getNumSamples());
+    ADSR1.applyEnvelopeToBuffer(voiceBuffer, 0, voiceBuffer.getNumSamples());
 
     for(int channel = 0; channel < outputBuffer.getNumChannels(); channel++){
         outputBuffer.addFrom(channel, startSample, voiceBuffer, channel, 0, numSamples);
 
-        if(!adsr.isActive()){
+        if(!ADSR1.isActive()){
             clearCurrentNote();
         }
     }

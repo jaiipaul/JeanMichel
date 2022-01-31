@@ -3,7 +3,8 @@
 
 using namespace SynthModules;
 
-VCO::VCO(){
+VCO::VCO(std::string _ModuleID){
+    ModuleID = _ModuleID;
     initialise(&genSAW);
 }
 
@@ -34,4 +35,3 @@ void VCO::switchWaveForm(const int type){
             break;
     }
 }
- 

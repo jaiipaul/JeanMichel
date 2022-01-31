@@ -14,6 +14,7 @@ namespace SynthModules{
         
     private:
         float Volume;
+        ADSR_Env& adsr;
         juce::dsp::Gain<float> gain;
     };
 }

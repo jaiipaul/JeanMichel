@@ -18,7 +18,6 @@ private:
     
     SynthAudioProcessor& processorRef;
     ADSR_section ADSR1;
-   
 
     //JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SynthEditor)
 };
