@@ -5,11 +5,11 @@
 #include "Module.h"
 
 namespace SynthModules{
-    class cADSR : public juce::ADSR,
+    class ADSR : public juce::ADSR,
                  public Module{
     public:
-        cADSR(std::string _ModuleID);
-        ~cADSR();
+        ADSR(std::string _ModuleID);
+        ~ADSR();
 
         void Update(juce::AudioProcessorValueTreeState& params);
 

@@ -5,13 +5,17 @@ bool SynthVoice::canPlaySound (juce::SynthesiserSound *sound) {
 }
 
 void SynthVoice::startNote (int midiNoteNumber, float velocity, juce::SynthesiserSound *sound, int currentPitchWheelPosition){
+    VCO0.setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber));
     VCO1.setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber));
+    VCO2.setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber));
     ADSR1.noteOn();
+    //ADSR2.noteOn();
 }
 
 void SynthVoice::stopNote (float velocity, bool allowTailOff){
     ADSR1.noteOff();
-    if( !allowTailOff || !ADSR1.isActive()){
+    //ADSR2.noteOff();
+    if( !allowTailOff || (!ADSR1.isActive())){
         clearCurrentNote();
     }
 }   
@@ -25,30 +29,47 @@ void SynthVoice::controllerMoved (int controllerNumber, int newControllerValue){
 }
 
 void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numOutputChannels){
-    ADSR1.setSampleRate(sampleRate);
-    
     juce::dsp::ProcessSpec specs;
     specs.sampleRate       = sampleRate;
     specs.maximumBlockSize = samplesPerBlock;
     specs.numChannels      = numOutputChannels;
 
-    VCO1.prepare(specs);
-    VCO1.setFrequency(440.f);
-    gain.prepare(specs);
-    gain.setGainLinear(0.1f);
 
-    juce::ADSR::Parameters initParams;
-    initParams.attack = 0.f;
-    initParams.decay = 0.f;
-    initParams.sustain = 0.f;
-    initParams.release = 0.f;
-    ADSR1.setParameters(initParams);
+    ADSR1.setSampleRate(sampleRate);
+    //ADSR2.setSampleRate(sampleRate);
+    
+    LFO1.prepare(specs);
+    LFO2.prepare(specs);
+
+    VCO0.prepare(specs);
+    VCO1.prepare(specs);
+    VCO2.prepare(specs);
+    
+    MIX.prepare(specs);
+    
+    VCF.prepare(96000.f, specs.numChannels);
+    
+    VCA.prepare(specs);
     
     isPrepared = true;
 }
 
 void SynthVoice::update(juce::AudioProcessorValueTreeState& _params){
     ADSR1.Update(_params);
+    //ADSR2.Update(_params);
+    
+    LFO1.Update(_params);
+    LFO2.Update(_params);
+
+    VCO0.Update(_params);
+    VCO1.Update(_params);
+    VCO2.Update(_params);
+    
+    MIX.Update(_params);
+    
+    VCF.Update(_params);
+    
+    VCA.Update(_params);
 }
 
 void SynthVoice::renderNextBlock (juce::AudioBuffer<float> &outputBuffer, int startSample, int numSamples){
@@ -59,10 +80,26 @@ void SynthVoice::renderNextBlock (juce::AudioBuffer<float> &outputBuffer, int st
     voiceBuffer.setSize(outputBuffer.getNumChannels(), numSamples, false, false, true);
     voiceBuffer.clear();
 
+    std::vector<juce::dsp::AudioBlock<float>> VCO_blocks;
+    
     juce::dsp::AudioBlock<float> audioBlock { voiceBuffer };
-    VCO1.process(juce::dsp::ProcessContextReplacing<float> ( audioBlock ));
-    gain.process(juce::dsp::ProcessContextReplacing<float> ( audioBlock ));
-    ADSR1.applyEnvelopeToBuffer(voiceBuffer, 0, voiceBuffer.getNumSamples());
+    LFO1.generateBlock();
+    LFO2.generateBlock();
+
+    VCO0.generateBlock();
+    VCO1.generateBlock();
+    VCO2.generateBlock();
+
+    VCO_blocks.push_back(VCO0.getBlock());
+    VCO_blocks.push_back(VCO1.getBlock());
+    VCO_blocks.push_back(VCO2.getBlock());
+
+    MIX.process(audioBlock, VCO_blocks);
+    
+    VCF.process(audioBlock);
+    
+    VCA.process(audioBlock);
+    
 
     for(int channel = 0; channel < outputBuffer.getNumChannels(); channel++){
         outputBuffer.addFrom(channel, startSample, voiceBuffer, channel, 0, numSamples);
@@ -71,6 +108,4 @@ void SynthVoice::renderNextBlock (juce::AudioBuffer<float> &outputBuffer, int st
             clearCurrentNote();
         }
     }
-
-    
 }

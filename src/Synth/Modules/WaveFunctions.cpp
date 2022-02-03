@@ -3,18 +3,15 @@
 #include <math.h>
 
 float genSAW(float x){
-    float t = x/juce::MathConstants<float>::pi;
-    return( t*2.f-1.f );
+    return( x/juce::MathConstants<float>::pi );
 }
 
 float genTRI(float x){
-    float t = x/juce::MathConstants<float>::pi;
-    return( 1.f-fabs(t-0.5f)*4.f );
+    return( (x < 0.f) ? 1.f+2.f*x/juce::MathConstants<float>::pi :1.f-2.f*x/juce::MathConstants<float>::pi);
 }
 
 float genSQR(float x){
-    float t = x/juce::MathConstants<float>::pi;
-    return((t < 0.f) ? 1.f : -1.f);
+    return((x < 0.f) ? 1.f : -1.f);
 }
 
 float genSINE(float x){

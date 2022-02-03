@@ -21,20 +21,28 @@ set(SOURCES
     # MODULES
     ${SOURCES_DIR}/Synth/Modules/Module.cpp
     ${SOURCES_DIR}/Synth/Modules/ADSR.cpp
-    #${SOURCES_DIR}/Synth/Modules/VCA.cpp
+    ${SOURCES_DIR}/Synth/Modules/VCA.cpp
     ${SOURCES_DIR}/Synth/Modules/VCO.cpp
+    ${SOURCES_DIR}/Synth/Modules/LFO.cpp
+    ${SOURCES_DIR}/Synth/Modules/Mixer.cpp
+    ${SOURCES_DIR}/Synth/Modules/LadderFilter.cpp
     ${SOURCES_DIR}/Synth/Modules/WaveFunctions.cpp
     # UI
+    ${SOURCES_DIR}/Synth/UI/VCA_section.cpp
     ${SOURCES_DIR}/Synth/UI/ADSR_section.cpp
-    
+    ${SOURCES_DIR}/Synth/UI/VCO_section.cpp
+    ${SOURCES_DIR}/Synth/UI/MIX_section.cpp
+    ${SOURCES_DIR}/Synth/UI/VCF_section.cpp
+    ${SOURCES_DIR}/Synth/UI/LFO_section.cpp
+
     ${SOURCES_DIR}/Synth/SynthVoice.cpp
     ${SOURCES_DIR}/Synth/SynthSound.cpp
 )
 
 juce_add_plugin(Synth
     # VERSION ...                               # Set this if the plugin version is different to the project version
-    # ICON_BIG ...                              # ICON_* arguments specify a path to an image file to use as an icon for the Standalone
-    # ICON_SMALL ...
+    ICON_BIG "assets/buttonSqrGreen.png"                              # ICON_* arguments specify a path to an image file to use as an icon for the Standalone
+    ICON_SMALL "assets/buttonSqrGreen.png"
     # COMPANY_NAME ...                          # Specify the name of the plugin's author
     IS_SYNTH TRUE                      # Is this a synth or an effect?
     NEEDS_MIDI_INPUT TRUE              # Does the plugin need midi input?

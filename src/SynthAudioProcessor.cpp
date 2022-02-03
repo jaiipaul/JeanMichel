@@ -156,8 +156,8 @@ bool SynthAudioProcessor::hasEditor() const
 juce::AudioProcessorEditor* SynthAudioProcessor::createEditor()
 {
     //std::cout << Params.getRawParameterValue("ADSR1__Attack") << std::endl;
-    return new juce::GenericAudioProcessorEditor(*this);
-    //return new SynthEditor (*this);
+    //return new juce::GenericAudioProcessorEditor(*this);
+    return new SynthEditor (*this);
 }
 
 //==============================================================================
@@ -249,11 +249,11 @@ juce::AudioProcessorValueTreeState::ParameterLayout SynthAudioProcessor::createP
         ID = "MIXER";
         std::unique_ptr<juce::AudioProcessorParameterGroup> Mixer_params =
             std::make_unique<juce::AudioProcessorParameterGroup>(ID, ID, "__");
-        Mixer_params->addChild(std::make_unique<juce::AudioParameterFloat>(ID+"SUB_VCO_Volume", ID+"SUB_VCO_Volume", 
+        Mixer_params->addChild(std::make_unique<juce::AudioParameterFloat>(ID+"Volume0", ID+"Volume0", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 0.f));            
-        Mixer_params->addChild(std::make_unique<juce::AudioParameterFloat>(ID+"VCO1_Volume", ID+"VCO1_Volume", 
+        Mixer_params->addChild(std::make_unique<juce::AudioParameterFloat>(ID+"Volume1", ID+"Volume1", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 0.95f));            
-        Mixer_params->addChild(std::make_unique<juce::AudioParameterFloat>(ID+"VCO2_Volume", ID+"VCO2_Volume", 
+        Mixer_params->addChild(std::make_unique<juce::AudioParameterFloat>(ID+"Volume2", ID+"Volume2", 
                                    juce::NormalisableRange<float>(0.f, 1.f, 0.001f, 1.f), 0.95f)); 
     //"ADSR1"
         ID = "ADSR1";

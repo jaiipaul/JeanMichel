@@ -16,6 +16,26 @@ namespace SynthModules{
     protected:
         std::string ModuleID;
     };
+
+    struct Phase{
+        int idx;
+        float phase;
+
+        void init(){
+            idx = 0;
+            phase = 0.0f;
+        };
+
+        void advance(float sampleRate, float freq){
+            if(idx < sampleRate/freq){
+                idx++;
+            }else{
+                idx = 0;
+            }
+            phase = fmod(freq*(float)idx/sampleRate, 1.0f);
+        };
+    };
+
 }
 
 

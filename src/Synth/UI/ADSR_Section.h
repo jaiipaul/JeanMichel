@@ -17,6 +17,8 @@ public:
 private:
     void setSliderParams(juce::Slider& slider);
 
+    juce::Rectangle<int> bounds;
+    
     juce::Slider AttackSlider;
     juce::Slider DecaySlider;
     juce::Slider SustainSlider;

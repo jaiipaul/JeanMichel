@@ -2,19 +2,25 @@
 #define _VCA_H_
 
 #include <JuceHeader.h>
+#include "Module.h"
+#include "ADSR.h"
 
 namespace SynthModules{
-    class VCA{
+    class VCA : public Module{
     public:
-        VCA();
+        VCA(std::string _ModuleID, SynthModules::ADSR& _adsr);
         ~VCA();
 
         void prepare(const juce::dsp::ProcessSpec &spec) noexcept;
         void process(juce::dsp::AudioBlock<float> block);
         
+        void Update(juce::AudioProcessorValueTreeState& params);
+
     private:
+
         float Volume;
-        ADSR_Env& adsr;
+        SynthModules::ADSR& adsr;
+        float ENV_intensity;
         juce::dsp::Gain<float> gain;
     };
 }

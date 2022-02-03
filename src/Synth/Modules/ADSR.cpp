@@ -1,16 +1,16 @@
 #include "ADSR.h"
 
-using namespace SynthModules;
+//using namespace SynthModules;
 
-cADSR::cADSR(std::string _ModuleID){
+SynthModules::ADSR::ADSR(std::string _ModuleID){
     ModuleID = _ModuleID;
 }
 
-cADSR::~cADSR(){
+SynthModules::ADSR::~ADSR(){
 
 }
 
-void cADSR::Update(juce::AudioProcessorValueTreeState& params){
+void SynthModules::ADSR::Update(juce::AudioProcessorValueTreeState& params){
     auto& attack  = *params.getRawParameterValue( ModuleID +"Attack");
     auto& decay   = *params.getRawParameterValue( ModuleID +"Decay");
     auto& sustain = *params.getRawParameterValue( ModuleID +"Sustain");

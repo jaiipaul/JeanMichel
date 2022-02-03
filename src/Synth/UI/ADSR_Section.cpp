@@ -12,6 +12,8 @@ void ADSR_section::initSection(std::string ModuleID, juce::AudioProcessorValueTr
     setSliderParams(DecaySlider);
     setSliderParams(SustainSlider);
     setSliderParams(ReleaseSlider);
+
+    bounds = getLocalBounds();
 }
 
 void ADSR_section::initSection(std::string ModuleID, juce::AudioProcessorValueTreeState& params, int x, int y, int w, int h){
@@ -26,6 +28,8 @@ void ADSR_section::initSection(std::string ModuleID, juce::AudioProcessorValueTr
     setSliderParams(DecaySlider);
     setSliderParams(SustainSlider);
     setSliderParams(ReleaseSlider);
+
+    bounds = juce::Rectangle(x, y, w, h);
 }
 
 void ADSR_section::paint (juce::Graphics& g){
@@ -33,12 +37,12 @@ void ADSR_section::paint (juce::Graphics& g){
 }
 
 void ADSR_section::resized(){
-    const auto bounds = getLocalBounds();
+    bounds = getLocalBounds();
     const auto padding = 10;
     const auto slider_w = bounds.getWidth() / 4 - padding;
-    const auto slider_h = bounds.getHeight()/ 2;
+    const auto slider_h = bounds.getHeight();
     const auto slider_startX = 0;
-    const auto slider_startY = (bounds.getHeight() / 2) - (slider_h / 2);
+    const auto slider_startY = 0;//(bounds.getHeight() / 2) - (slider_h / 2);
 
     AttackSlider.setBounds(slider_startX, slider_startY, slider_w, slider_h);
     DecaySlider.setBounds(AttackSlider.getRight() + padding, slider_startY, slider_w, slider_h);
