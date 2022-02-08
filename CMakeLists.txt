@@ -11,6 +11,8 @@ set(BUILD_SHARED_LIBS OFF)
 
 set(BUILD_DIR
     "${PROJECT_SOURCE_DIR}/build/")
+set(ASSETS_DIR
+    "${PROJECT_SOURCE_DIR}/assets/")
 set(SOURCES_DIR        
     "${PROJECT_SOURCE_DIR}/src/")
 set(INCLUDES_DIR
@@ -55,7 +57,7 @@ juce_add_plugin(Synth
     PLUGIN_MANUFACTURER_CODE PolF               # A four-character manufacturer id with at least one upper-case character
     PLUGIN_CODE Dem0                            # A unique four-character plugin id with exactly one upper-case character
                                                 # GarageBand 10.3 requires the first letter to be upper-case, and the remaining letters to be lower-case
-    FORMATS Standalone                  # The formats to build. Other valid formats are: AAX Unity VST AU AUv3
+    FORMATS VST3 Standalone                  # The formats to build. Other valid formats are: AAX Unity VST AU AUv3
     PRODUCT_NAME "Synth")        # The name of the final executable, which can differ from the target name
 
 
@@ -88,7 +90,10 @@ target_compile_definitions(Synth
 # static library. These source files can be of any kind (wav data, images, fonts, icons etc.).
 # Conversion to binary-data will happen when your target is built.
 
-# juce_add_binary_data(AudioPluginData SOURCES ...)
+juce_add_binary_data(AudioPluginData 
+    NAMESPACE assets
+    SOURCES 
+    ${ASSETS_DIR}/jeanmichel.png)
 
 # `target_link_libraries` links libraries and JUCE modules to other libraries or executables. Here,
 # we're linking our executable target to the `juce::juce_audio_utils` module. Inter-module
@@ -98,7 +103,7 @@ target_compile_definitions(Synth
 
 target_link_libraries(Synth
     PRIVATE
-        # AudioPluginData           # If we'd created a binary data target, we'd link to it here
+        AudioPluginData           # If we'd created a binary data target, we'd link to it here
         juce::juce_audio_utils
         juce::juce_dsp
     PUBLIC

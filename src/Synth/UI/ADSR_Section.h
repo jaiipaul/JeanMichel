@@ -2,6 +2,7 @@
 #define _ADSR_SECTION_H_
 
 #include <JuceHeader.h>
+#include "UI_func.h"
 
 class ADSR_section : public juce::Component{
 public:
@@ -15,7 +16,6 @@ public:
     void resized() override;
 
 private:
-    void setSliderParams(juce::Slider& slider);
 
     juce::Rectangle<int> bounds;
     

@@ -18,8 +18,6 @@ public:
 private:
     ADSR_section ADSR;
     juce::Rectangle<int> bounds;
-
-    void setSliderParamsV(juce::Slider& slider);
     
     juce::Slider VCA_VolumeSlider;
     juce::Slider VCA_ENV_intensitySlider;

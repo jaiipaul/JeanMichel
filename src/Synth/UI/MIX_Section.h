@@ -16,7 +16,6 @@ public:
     void resized() override;
 
 private:
-    //void setSliderParams(juce::Slider& slider);
 
     juce::Rectangle<int> bounds;
 

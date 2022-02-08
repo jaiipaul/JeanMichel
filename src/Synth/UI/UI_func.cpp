@@ -1,7 +1,7 @@
 #include "UI_func.h"
 
 
-void setSliderParams(juce::Component& parent, ::Slider& slider, SliderStyle style){
+void setSliderParams(juce::Component& parent, juce::Slider& slider, SliderStyle style){
         slider.setSliderStyle(style);
         slider.setTextBoxStyle(juce::Slider::NoTextBox, true, 50, 25);
         parent.addAndMakeVisible(slider);

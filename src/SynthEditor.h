@@ -7,6 +7,7 @@
 #include "Synth/UI/VCF_Section.h"
 #include "Synth/UI/LFO_section.h"
 #include "Synth/UI/CLookAndFeel.h"
+#include <BinaryData.h>
 
 //==============================================================================
 class SynthEditor  : public juce::AudioProcessorEditor
@@ -20,6 +21,8 @@ public:
     void resized() override;
 
 private:
+    
+    juce::Image BackGround;
     
     SynthAudioProcessor& processorRef;
     CLookAndFeel CustomLookAndFeel;

@@ -26,7 +26,7 @@ void MIX_section::initSection(std::string ModuleID, juce::AudioProcessorValueTre
 }
 
 void MIX_section::paint (juce::Graphics& g){
-    g.fillAll(juce::Colours::black);
+    //g.fillAll(juce::Colours::black);
 }
 
 void MIX_section::resized(){

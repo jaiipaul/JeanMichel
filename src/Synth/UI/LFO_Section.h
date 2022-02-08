@@ -2,6 +2,7 @@
 #define _LFO_SECTION_H_
 
 #include <JuceHeader.h>
+#include "UI_func.h"
 
 class LFO_section : public juce::Component{
 public:
@@ -16,8 +17,6 @@ public:
 
 private:
     juce::Rectangle<int> bounds;
-
-    void setSliderParamsV(juce::Slider& slider);
     
     juce::Slider LFO_RateSlider;
     juce::Slider LFO_WaveSlider;

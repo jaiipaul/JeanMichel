@@ -1,114 +1,92 @@
 #include "VCO_Section.h"
 
 void VCO_section::initSection(juce::AudioProcessorValueTreeState& params){
-    using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
 
-    SUB_WaveAttachment                = std::make_unique<SliderAttachment>(params, "SUB_VCOWave", SUB_WaveSlider);
-    SUB_OctaveAttachment              = std::make_unique<SliderAttachment>(params, "SUB_VCOOctaveDown", SUB_OctaveSlider); 
+    setSliderParams(*this, SUB_WaveSlider, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    SUB_WaveAttachment                = CreateAttachment(params, "SUB_VCOWave", SUB_WaveSlider);
+    setSliderParams(*this, SUB_OctaveSlider,juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    SUB_OctaveAttachment              = CreateAttachment(params, "SUB_VCOOctaveDown", SUB_OctaveSlider); 
 
-    VCO1_WaveAttachment               = std::make_unique<SliderAttachment>(params, "VCO1Wave", VCO1_WaveSlider);
-    VCO1_PulseWidthAttachment         = std::make_unique<SliderAttachment>(params, "VCO1PulseWidth", VCO1_PulseWidthSlider);
-    VCO1_LFO_Freq_intensityAttachment = std::make_unique<SliderAttachment>(params, "VCO1LFO_Freq_intensity", VCO1_LFO_Freq_intensitySlider);
-    VCO1_LFO_Pw_intensityAttachment   = std::make_unique<SliderAttachment>(params, "VCO1LFO_Pw_intensity", VCO1_LFO_Pw_intensitySlider);
+    setSliderParams(*this, VCO1_WaveSlider, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    VCO1_WaveAttachment               = CreateAttachment(params, "VCO1Wave", VCO1_WaveSlider);
+    setSliderParams(*this, VCO1_PulseWidthSlider, juce::Slider::SliderStyle::LinearVertical);
+    VCO1_PulseWidthAttachment         = CreateAttachment(params, "VCO1PulseWidth", VCO1_PulseWidthSlider);
+    setSliderParams(*this, VCO1_LFO_Freq_intensitySlider, juce::Slider::SliderStyle::LinearVertical);
+    VCO1_LFO_Freq_intensityAttachment = CreateAttachment(params, "VCO1LFO_Freq_intensity", VCO1_LFO_Freq_intensitySlider);
+    setSliderParams(*this, VCO1_LFO_Pw_intensitySlider, juce::Slider::SliderStyle::LinearVertical);
+    VCO1_LFO_Pw_intensityAttachment   = CreateAttachment(params, "VCO1LFO_Pw_intensity", VCO1_LFO_Pw_intensitySlider);
 
-    VCO2_WaveAttachment               = std::make_unique<SliderAttachment>(params, "VCO2Wave", VCO2_WaveSlider);
-    VCO2_PulseWidthAttachment         = std::make_unique<SliderAttachment>(params, "VCO2PulseWidth", VCO2_PulseWidthSlider);
-    VCO2_LFO_Freq_intensityAttachment = std::make_unique<SliderAttachment>(params, "VCO2LFO_Freq_intensity", VCO2_LFO_Freq_intensitySlider);
-    VCO2_LFO_Pw_intensityAttachment   = std::make_unique<SliderAttachment>(params, "VCO2LFO_Pw_intensity", VCO2_LFO_Pw_intensitySlider);
-    VCO2_DetuneAttachment             = std::make_unique<SliderAttachment>(params, "VCO2Detune", VCO2_DetuneSlider);
-
-    setSliderParamsH(SUB_WaveSlider);
-    setSliderParamsH(SUB_OctaveSlider); 
-
-    setSliderParamsH(VCO1_WaveSlider);
-    setSliderParamsV(VCO1_PulseWidthSlider);
-    setSliderParamsV(VCO1_LFO_Freq_intensitySlider);
-    setSliderParamsV(VCO1_LFO_Pw_intensitySlider);
-
-    setSliderParamsH(VCO2_WaveSlider);
-    setSliderParamsV(VCO2_PulseWidthSlider);
-    setSliderParamsV(VCO2_LFO_Freq_intensitySlider);
-    setSliderParamsV(VCO2_LFO_Pw_intensitySlider);
-    setSliderParamsV(VCO2_DetuneSlider);
+    setSliderParams(*this, VCO2_WaveSlider, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    VCO2_WaveAttachment               = CreateAttachment(params, "VCO2Wave", VCO2_WaveSlider);
+    setSliderParams(*this, VCO2_PulseWidthSlider, juce::Slider::SliderStyle::LinearVertical);
+    VCO2_PulseWidthAttachment         = CreateAttachment(params, "VCO2PulseWidth", VCO2_PulseWidthSlider);
+    setSliderParams(*this, VCO2_LFO_Freq_intensitySlider, juce::Slider::SliderStyle::LinearVertical);
+    VCO2_LFO_Freq_intensityAttachment = CreateAttachment(params, "VCO2LFO_Freq_intensity", VCO2_LFO_Freq_intensitySlider);
+    setSliderParams(*this, VCO2_LFO_Pw_intensitySlider, juce::Slider::SliderStyle::LinearVertical);
+    VCO2_LFO_Pw_intensityAttachment   = CreateAttachment(params, "VCO2LFO_Pw_intensity", VCO2_LFO_Pw_intensitySlider);
+    setSliderParams(*this, VCO2_DetuneSlider, juce::Slider::SliderStyle::LinearVertical);
+    VCO2_DetuneAttachment             = CreateAttachment(params, "VCO2Detune", VCO2_DetuneSlider);
 
     bounds = getLocalBounds();
+    setBounds(bounds);
 }
 
 void VCO_section::initSection(juce::AudioProcessorValueTreeState& params, int x, int y, int w, int h){
-    using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
+    
+    setSliderParams(*this, SUB_WaveSlider, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    SUB_WaveAttachment                = CreateAttachment(params, "SUB_VCOWave", SUB_WaveSlider);
+    setSliderParams(*this, SUB_OctaveSlider,juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    SUB_OctaveAttachment              = CreateAttachment(params, "SUB_VCOOctaveDown", SUB_OctaveSlider); 
 
-    SUB_WaveAttachment                = std::make_unique<SliderAttachment>(params, "SUB_VCOWave", SUB_WaveSlider);
-    SUB_OctaveAttachment              = std::make_unique<SliderAttachment>(params, "SUB_VCOOctaveDown", SUB_OctaveSlider); 
+    setSliderParams(*this, VCO1_WaveSlider, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    VCO1_WaveAttachment               = CreateAttachment(params, "VCO1Wave", VCO1_WaveSlider);
+    setSliderParams(*this, VCO1_PulseWidthSlider, juce::Slider::SliderStyle::LinearVertical);
+    VCO1_PulseWidthAttachment         = CreateAttachment(params, "VCO1PulseWidth", VCO1_PulseWidthSlider);
+    setSliderParams(*this, VCO1_LFO_Freq_intensitySlider, juce::Slider::SliderStyle::LinearVertical);
+    VCO1_LFO_Freq_intensityAttachment = CreateAttachment(params, "VCO1LFO_Freq_intensity", VCO1_LFO_Freq_intensitySlider);
+    setSliderParams(*this, VCO1_LFO_Pw_intensitySlider, juce::Slider::SliderStyle::LinearVertical);
+    VCO1_LFO_Pw_intensityAttachment   = CreateAttachment(params, "VCO1LFO_Pw_intensity", VCO1_LFO_Pw_intensitySlider);
 
-    VCO1_WaveAttachment               = std::make_unique<SliderAttachment>(params, "VCO1Wave", VCO1_WaveSlider);
-    VCO1_PulseWidthAttachment         = std::make_unique<SliderAttachment>(params, "VCO1PulseWidth", VCO1_PulseWidthSlider);
-    VCO1_LFO_Freq_intensityAttachment = std::make_unique<SliderAttachment>(params, "VCO1LFO_Freq_intensity", VCO1_LFO_Freq_intensitySlider);
-    VCO1_LFO_Pw_intensityAttachment   = std::make_unique<SliderAttachment>(params, "VCO1LFO_Pw_intensity", VCO1_LFO_Pw_intensitySlider);
-
-    VCO2_WaveAttachment               = std::make_unique<SliderAttachment>(params, "VCO2Wave", VCO2_WaveSlider);
-    VCO2_PulseWidthAttachment         = std::make_unique<SliderAttachment>(params, "VCO2PulseWidth", VCO2_PulseWidthSlider);
-    VCO2_LFO_Freq_intensityAttachment = std::make_unique<SliderAttachment>(params, "VCO2LFO_Freq_intensity", VCO2_LFO_Freq_intensitySlider);
-    VCO2_LFO_Pw_intensityAttachment   = std::make_unique<SliderAttachment>(params, "VCO2LFO_Pw_intensity", VCO2_LFO_Pw_intensitySlider);
-    VCO2_DetuneAttachment             = std::make_unique<SliderAttachment>(params, "VCO2Detune", VCO2_DetuneSlider);
-
-    setSliderParamsH(SUB_WaveSlider);
-    setSliderParamsH(SUB_OctaveSlider); 
-
-    setSliderParamsH(VCO1_WaveSlider);
-    setSliderParamsV(VCO1_PulseWidthSlider);
-    setSliderParamsV(VCO1_LFO_Freq_intensitySlider);
-    setSliderParamsV(VCO1_LFO_Pw_intensitySlider);
-
-    setSliderParamsH(VCO2_WaveSlider);
-    setSliderParamsV(VCO2_PulseWidthSlider);
-    setSliderParamsV(VCO2_LFO_Freq_intensitySlider);
-    setSliderParamsV(VCO2_LFO_Pw_intensitySlider);
-    setSliderParamsV(VCO2_DetuneSlider);
+    setSliderParams(*this, VCO2_WaveSlider, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    VCO2_WaveAttachment               = CreateAttachment(params, "VCO2Wave", VCO2_WaveSlider);
+    setSliderParams(*this, VCO2_PulseWidthSlider, juce::Slider::SliderStyle::LinearVertical);
+    VCO2_PulseWidthAttachment         = CreateAttachment(params, "VCO2PulseWidth", VCO2_PulseWidthSlider);
+    setSliderParams(*this, VCO2_LFO_Freq_intensitySlider, juce::Slider::SliderStyle::LinearVertical);
+    VCO2_LFO_Freq_intensityAttachment = CreateAttachment(params, "VCO2LFO_Freq_intensity", VCO2_LFO_Freq_intensitySlider);
+    setSliderParams(*this, VCO2_LFO_Pw_intensitySlider, juce::Slider::SliderStyle::LinearVertical);
+    VCO2_LFO_Pw_intensityAttachment   = CreateAttachment(params, "VCO2LFO_Pw_intensity", VCO2_LFO_Pw_intensitySlider);
+    setSliderParams(*this, VCO2_DetuneSlider, juce::Slider::SliderStyle::LinearVertical);
+    VCO2_DetuneAttachment             = CreateAttachment(params, "VCO2Detune", VCO2_DetuneSlider);
 
     bounds = juce::Rectangle(x, y, w, h);
+    setBounds(bounds);
 }
 
 void VCO_section::paint (juce::Graphics& g){
-    g.fillAll(juce::Colours::black);
+    //g.fillAll(juce::Colours::black);
 }
 
 void VCO_section::resized(){
+    int boundsX = bounds.getX();
+    int boundsY = bounds.getY();
+    std::cout << boundsX << "/" << boundsY << std::endl;
 
-    bounds = getLocalBounds();
-    const auto padding = 10;
-    const auto Vslider_w = bounds.getWidth() / 8 - padding;
-    const auto Vslider_h = bounds.getHeight()/ 2;
-
-    const auto Hslider_w = bounds.getWidth()/ 5;
-    const auto Hslider_h = bounds.getHeight() / 8 - padding;
+    const auto Vslider_w = 14;
+    const auto Vslider_h = 110;
 
 
-    SUB_WaveSlider.setBounds(Hslider_w, 0, Hslider_w, Hslider_h);
-    SUB_OctaveSlider.setBounds(SUB_WaveSlider.getRight()+Hslider_w, 0, Hslider_w, Hslider_h); 
+    SUB_WaveSlider.setBounds(58-boundsX, 110-boundsY, 45, 45);
+    SUB_OctaveSlider.setBounds(191-boundsX, 110-boundsY, 45, 45); 
 
-    VCO1_LFO_Freq_intensitySlider.setBounds(0, SUB_WaveSlider.getBottom(), Vslider_w, Vslider_h);
-    VCO1_LFO_Pw_intensitySlider.setBounds(VCO1_LFO_Freq_intensitySlider.getRight(), SUB_WaveSlider.getBottom(), Vslider_w, Vslider_h);
-    VCO1_PulseWidthSlider.setBounds(VCO1_LFO_Pw_intensitySlider.getRight(), SUB_WaveSlider.getBottom(), Vslider_w, Vslider_h);
+    VCO1_LFO_Freq_intensitySlider.setBounds(175-boundsX, 205-boundsY, Vslider_w, Vslider_h);
+    VCO1_LFO_Pw_intensitySlider.setBounds(236-boundsX, 205-boundsY, Vslider_w, Vslider_h);
+    VCO1_PulseWidthSlider.setBounds(105-boundsX, 205-boundsY, Vslider_w, Vslider_h);
 
-    VCO2_LFO_Freq_intensitySlider.setBounds(VCO1_PulseWidthSlider.getRight()+Vslider_w, SUB_WaveSlider.getBottom(), Vslider_w, Vslider_h);
-    VCO2_LFO_Pw_intensitySlider.setBounds(VCO2_LFO_Freq_intensitySlider.getRight(), SUB_WaveSlider.getBottom(), Vslider_w, Vslider_h);
-    VCO2_PulseWidthSlider.setBounds(VCO2_LFO_Pw_intensitySlider.getRight(), SUB_WaveSlider.getBottom(), Vslider_w, Vslider_h);
-    VCO2_DetuneSlider.setBounds(VCO2_PulseWidthSlider.getRight(), SUB_WaveSlider.getBottom(), Vslider_w, Vslider_h);
+    VCO2_LFO_Freq_intensitySlider.setBounds(206-boundsX, 372-boundsY, Vslider_w, Vslider_h);
+    VCO2_LFO_Pw_intensitySlider.setBounds(243-boundsX, 372-boundsY, Vslider_w, Vslider_h);
+    VCO2_PulseWidthSlider.setBounds(105-boundsX, 372-boundsY, Vslider_w, Vslider_h);
+    VCO2_DetuneSlider.setBounds(168-boundsX,372-boundsY, Vslider_w, Vslider_h);
 
-    const auto midVCO1_X = VCO1_PulseWidthSlider.getRight() - Hslider_w/2;
-    VCO1_WaveSlider.setBounds(midVCO1_X, VCO2_DetuneSlider.getBottom(), Hslider_w, Hslider_h);
-    const auto midVCO2_X = VCO2_DetuneSlider.getRight() - VCO1_PulseWidthSlider.getRight() + Vslider_w - Hslider_w/2;
-    VCO2_WaveSlider.setBounds(midVCO2_X, VCO2_DetuneSlider.getBottom(), Hslider_w, Hslider_h);
-}
-
-void VCO_section::setSliderParamsV(juce::Slider& slider){
-    slider.setSliderStyle( juce::Slider::SliderStyle::LinearVertical);
-    slider.setTextBoxStyle( juce::Slider::TextBoxBelow, true, 50, 25);
-    addAndMakeVisible(slider);
-}
-
-void VCO_section::setSliderParamsH(juce::Slider& slider){
-    slider.setSliderStyle( juce::Slider::SliderStyle::LinearHorizontal);
-    slider.setTextBoxStyle( juce::Slider::TextBoxBelow, true, 50, 25);
-    addAndMakeVisible(slider);
+    VCO1_WaveSlider.setBounds(31-boundsX, 235-boundsY, 50, 50);
+    VCO2_WaveSlider.setBounds(31-boundsX, 403-boundsY, 50, 50);
 }

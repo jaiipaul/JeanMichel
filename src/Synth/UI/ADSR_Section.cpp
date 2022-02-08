@@ -1,39 +1,35 @@
 #include "ADSR_Section.h"
 
 void ADSR_section::initSection(std::string ModuleID, juce::AudioProcessorValueTreeState& params){
-    using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
 
-    AttackAttachment  = std::make_unique<SliderAttachment>(params, ModuleID+"Attack", AttackSlider);
-    DecayAttachment = std::make_unique<SliderAttachment>(params, ModuleID+"Decay", DecaySlider);
-    SustainAttachment   = std::make_unique<SliderAttachment>(params, ModuleID+"Sustain", SustainSlider);
-    ReleaseAttachment = std::make_unique<SliderAttachment>(params, ModuleID+"Release", ReleaseSlider);
-
-    setSliderParams(AttackSlider);
-    setSliderParams(DecaySlider);
-    setSliderParams(SustainSlider);
-    setSliderParams(ReleaseSlider);
+    setSliderParams(*this, AttackSlider, juce::Slider::SliderStyle::LinearVertical);
+    AttackAttachment  = CreateAttachment(params, ModuleID+"Attack", AttackSlider);
+    setSliderParams(*this, DecaySlider, juce::Slider::SliderStyle::LinearVertical);
+    DecayAttachment   = CreateAttachment(params, ModuleID+"Decay", DecaySlider);
+    setSliderParams(*this, SustainSlider, juce::Slider::SliderStyle::LinearVertical);
+    SustainAttachment = CreateAttachment(params, ModuleID+"Sustain", SustainSlider);
+    setSliderParams(*this, ReleaseSlider, juce::Slider::SliderStyle::LinearVertical);
+    ReleaseAttachment = CreateAttachment(params, ModuleID+"Release", ReleaseSlider);
 
     bounds = getLocalBounds();
 }
 
 void ADSR_section::initSection(std::string ModuleID, juce::AudioProcessorValueTreeState& params, int x, int y, int w, int h){
-    using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
 
-    AttackAttachment  = std::make_unique<SliderAttachment>(params, ModuleID+"Attack", AttackSlider);
-    DecayAttachment = std::make_unique<SliderAttachment>(params, ModuleID+"Decay", DecaySlider);
-    SustainAttachment   = std::make_unique<SliderAttachment>(params, ModuleID+"Sustain", SustainSlider);
-    ReleaseAttachment = std::make_unique<SliderAttachment>(params, ModuleID+"Release", ReleaseSlider);
-
-    setSliderParams(AttackSlider);
-    setSliderParams(DecaySlider);
-    setSliderParams(SustainSlider);
-    setSliderParams(ReleaseSlider);
+    setSliderParams(*this, AttackSlider, juce::Slider::SliderStyle::LinearVertical);
+    AttackAttachment  = CreateAttachment(params, ModuleID+"Attack", AttackSlider);
+    setSliderParams(*this, DecaySlider, juce::Slider::SliderStyle::LinearVertical);
+    DecayAttachment   = CreateAttachment(params, ModuleID+"Decay", DecaySlider);
+    setSliderParams(*this, SustainSlider, juce::Slider::SliderStyle::LinearVertical);
+    SustainAttachment = CreateAttachment(params, ModuleID+"Sustain", SustainSlider);
+    setSliderParams(*this, ReleaseSlider, juce::Slider::SliderStyle::LinearVertical);
+    ReleaseAttachment = CreateAttachment(params, ModuleID+"Release", ReleaseSlider);
 
     bounds = juce::Rectangle(x, y, w, h);
 }
 
 void ADSR_section::paint (juce::Graphics& g){
-    g.fillAll(juce::Colours::black);
+    //g.fillAll(juce::Colours::black);
 }
 
 void ADSR_section::resized(){
@@ -48,10 +44,4 @@ void ADSR_section::resized(){
     DecaySlider.setBounds(AttackSlider.getRight() + padding, slider_startY, slider_w, slider_h);
     SustainSlider.setBounds(DecaySlider.getRight() + padding, slider_startY, slider_w, slider_h);
     ReleaseSlider.setBounds(SustainSlider.getRight() + padding, slider_startY, slider_w, slider_h);
-}
-
-void ADSR_section::setSliderParams(juce::Slider& slider){
-    slider.setSliderStyle( juce::Slider::SliderStyle::LinearVertical);
-    slider.setTextBoxStyle( juce::Slider::TextBoxBelow, true, 50, 25);
-    addAndMakeVisible(slider);
 }

@@ -2,6 +2,7 @@
 #define _VCO_SECTION_H_
 
 #include <JuceHeader.h>
+#include "UI_func.h"
 
 class VCO_section : public juce::Component{
 public:
@@ -17,8 +18,6 @@ public:
 private:
     juce::Rectangle<int> bounds;
 
-    void setSliderParamsV(juce::Slider& slider);
-    void setSliderParamsH(juce::Slider& slider);
     juce::Slider SUB_WaveSlider;
     juce::Slider SUB_OctaveSlider;
 
