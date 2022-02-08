@@ -28,7 +28,7 @@ private:
     bool isPrepared { false };
 
     SynthModules::ADSR ADSR1{"ADSR1"};
-    //SynthModules::ADSR ADSR2{"ADSR2"};
+    SynthModules::ADSR ADSR2{"ADSR2"};
 
     SynthModules::LFO LFO1{"LFO1"};
     SynthModules::LFO LFO2{"LFO2"};
@@ -39,7 +39,7 @@ private:
 
     SynthModules::MIXER MIX{"MIXER", 3};
 
-    SynthModules::LadderFilter VCF{"VCF", ADSR1};
+    SynthModules::LadderFilter VCF{"VCF", ADSR2, LFO2};
     
     SynthModules::VCA VCA{"VCA", ADSR1 };
 };

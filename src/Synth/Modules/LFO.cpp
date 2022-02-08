@@ -31,10 +31,12 @@ float LFO::getValueAt(int sampleIdx){
     return(lfo_buffer.getSample(0, sampleIdx));
 }
 
-void LFO::generateBlock(){
+void LFO::generateBlock(int numSamples){
+    lfo_buffer.setSize(1, numSamples, false, false, true);
+    lfo_buffer.clear();
     juce::dsp::AudioBlock<float> lfo_block { lfo_buffer };
     //std::cout << "Generating block of " << ModuleID << std::endl;
-    for(int s = 0; s < (int)Specs.maximumBlockSize; s++){
+    for(int s = 0; s < numSamples; s++){
         //std::cout << "Generating sample " << s << " of " << ModuleID << std::endl;
         generateSample(s, lfo_block);
     }

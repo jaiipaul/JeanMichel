@@ -28,7 +28,7 @@ void MIXER::process(juce::dsp::AudioBlock<float> block_out, std::vector<juce::ds
                 gainSum += Gains[input].getGainLinear();
                 nextSample += Gains[input].processSample(blocks_in[input].getSample(ch, s));
             }
-            nextSample = nextSample / gainSum;
+            nextSample = nextSample / N_inputs;
             block_out.setSample(ch, s, nextSample);
         }
     }  

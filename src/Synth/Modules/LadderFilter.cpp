@@ -2,8 +2,8 @@
 
 using namespace SynthModules;
 
-SynthModules::LadderFilter::LadderFilter(std::string _ModuleID, SynthModules::ADSR& _adsr)
-    : adsr (_adsr){
+SynthModules::LadderFilter::LadderFilter(std::string _ModuleID, SynthModules::ADSR& _adsr, SynthModules::LFO& _lfo)
+    : adsr (_adsr), lfo(_lfo){
     ModuleID = _ModuleID;
 }
 
@@ -26,9 +26,10 @@ void LadderFilter::prepare(float _sampleRate, int channels){
 }
 
 void LadderFilter::process(juce::dsp::AudioBlock<float> block){
-    for(int ch = 0; ch < block.getNumChannels(); ch++){
-        for(int s = 0; s < block.getNumSamples(); s++){
-            ComputeCoef();
+    for(int s = 0; s < block.getNumSamples(); s++){
+        ComputeCoef(s);
+        for(int ch = 0; ch < block.getNumChannels(); ch++){
+            
 
             float X = Drive*block.getSample(ch, s) + 4*resonance*StageOutputs[ch*4+3];
 
@@ -62,18 +63,20 @@ void LadderFilter::Update(juce::AudioProcessorValueTreeState& params){
     auto& cut   = *params.getRawParameterValue( ModuleID +"Cutoff");
     auto& reso  = *params.getRawParameterValue( ModuleID +"Resonance");
     auto& dr    = *params.getRawParameterValue( ModuleID +"Drive");
-    auto& env   = *params.getRawParameterValue( ModuleID +"ENV_intensity");
-
+    auto& env_int   = *params.getRawParameterValue( ModuleID +"ENV_intensity");
+    auto& lfo_int   = *params.getRawParameterValue( ModuleID +"LFO_intensity");
     cutoff = cut.load();
     resonance = reso.load();
     Drive = dr.load();
-    ENV_intensity = env.load();
+    ENV_intensity = env_int.load();
+    LFO_intensity = lfo_int.load();
 }
-void LadderFilter::ComputeCoef(){
-    float x = (juce::MathConstants<float>::pi * cutoff)/sampleRate;
+void LadderFilter::ComputeCoef(int sampleIdx){
     float Env = ENV_intensity * adsr.getNextSample() ;
-    float Mod = 0;//LFO_intensity * maxCutoffMod * Lfo->getValue();
-    float w0 =  (2.f * juce::MathConstants<float>::pi * (cutoff + Mod)) * Env ;
+    float Mod = LFO_intensity * 5000.f * lfo.getValueAt(sampleIdx);
+    float cut = (cutoff + Mod) * Env;
+    float w0 =  (2.f * juce::MathConstants<float>::pi * cut);
+    float x = (juce::MathConstants<float>::pi * cut)/sampleRate;
 
     G = 2.f * Vt * w0 * (1.f - x)/(1.f + x);
 }

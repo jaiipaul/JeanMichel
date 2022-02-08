@@ -16,9 +16,11 @@ void VCA::prepare(const juce::dsp::ProcessSpec &spec) noexcept {
 }
 
 void VCA::process(juce::dsp::AudioBlock<float> block){
-    for(int ch = 0; ch < block.getNumChannels(); ch++){
-        for(int s = 0; s < block.getNumSamples(); s++){
-            auto nextSample = ENV_intensity * adsr.getNextSample() * gain.processSample(block.getSample(ch, s));
+    for(int s = 0; s < block.getNumSamples(); s++){
+        float env_sample = adsr.getNextSample();
+        for(int ch = 0; ch < block.getNumChannels(); ch++){
+            //std::cout << env_sample << std::endl;
+            auto nextSample = ENV_intensity * env_sample * gain.processSample(block.getSample(ch, s));
             block.setSample(ch, s, nextSample);
         }
     }  

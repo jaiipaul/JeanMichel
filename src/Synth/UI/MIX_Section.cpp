@@ -1,27 +1,25 @@
 #include "MIX_Section.h"
 
 void MIX_section::initSection(std::string ModuleID, juce::AudioProcessorValueTreeState& params){
-    using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
 
-    setSliderParams(Vol0Slider);
-    Vol0Attachment = std::make_unique<SliderAttachment>(params, ModuleID+"Volume0", Vol0Slider);
-    setSliderParams(Vol1Slider);
-    Vol1Attachment = std::make_unique<SliderAttachment>(params, ModuleID+"Volume1", Vol1Slider);
-    setSliderParams(Vol2Slider);
-    Vol2Attachment = std::make_unique<SliderAttachment>(params, ModuleID+"Volume2", Vol2Slider);        
+    setSliderParams(*this, Vol0Slider, juce::Slider::SliderStyle::LinearVertical);
+    Vol0Attachment = CreateAttachment(params, ModuleID+"Volume0", Vol0Slider);
+    setSliderParams(*this, Vol1Slider, juce::Slider::SliderStyle::LinearVertical);
+    Vol1Attachment = CreateAttachment(params, ModuleID+"Volume1", Vol1Slider);
+    setSliderParams(*this, Vol2Slider, juce::Slider::SliderStyle::LinearVertical);
+    Vol2Attachment = CreateAttachment(params, ModuleID+"Volume2", Vol2Slider);       
 
     bounds = getLocalBounds();
 }
 
 void MIX_section::initSection(std::string ModuleID, juce::AudioProcessorValueTreeState& params, int x, int y, int w, int h){
-    using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
 
-    setSliderParams(Vol0Slider);
-    Vol0Attachment = std::make_unique<SliderAttachment>(params, ModuleID+"Volume0", Vol0Slider);
-    setSliderParams(Vol1Slider);
-    Vol1Attachment = std::make_unique<SliderAttachment>(params, ModuleID+"Volume1", Vol1Slider);
-    setSliderParams(Vol2Slider);
-    Vol2Attachment = std::make_unique<SliderAttachment>(params, ModuleID+"Volume2", Vol2Slider);
+    setSliderParams(*this, Vol0Slider, juce::Slider::SliderStyle::LinearVertical);
+    Vol0Attachment = CreateAttachment(params, ModuleID+"Volume0", Vol0Slider);
+    setSliderParams(*this, Vol1Slider, juce::Slider::SliderStyle::LinearVertical);
+    Vol1Attachment = CreateAttachment(params, ModuleID+"Volume1", Vol1Slider);
+    setSliderParams(*this, Vol2Slider, juce::Slider::SliderStyle::LinearVertical);
+    Vol2Attachment = CreateAttachment(params, ModuleID+"Volume2", Vol2Slider);    
     
 
     bounds = juce::Rectangle(x, y, w, h);
@@ -43,10 +41,4 @@ void MIX_section::resized(){
     Vol1Slider.setBounds(Vol0Slider.getRight()+padding, slider_startY, slider_w, slider_h);
     Vol2Slider.setBounds(Vol1Slider.getRight()+padding, slider_startY, slider_w, slider_h);
 
-}
-
-void MIX_section::setSliderParams(juce::Slider& slider){
-    slider.setSliderStyle( juce::Slider::SliderStyle::LinearVertical);
-    slider.setTextBoxStyle( juce::Slider::TextBoxBelow, true, 50, 25);
-    addAndMakeVisible(slider);
 }

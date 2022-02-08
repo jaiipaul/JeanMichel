@@ -4,20 +4,21 @@
 #include <JuceHeader.h>
 #include "Module.h"
 #include "ADSR.h"
+#include "LFO.h"
 
-#define Vt 0.312F
+#define Vt 0.312f
 
 namespace SynthModules{
     class LadderFilter : public Module{
     public:
-        LadderFilter(std::string _ModuleID, SynthModules::ADSR& _adsr);
+        LadderFilter(std::string _ModuleID, SynthModules::ADSR& _adsr, SynthModules::LFO& _lfo);
         ~LadderFilter();
 
         void prepare(float _sampleRate, int channels);
         void process(juce::dsp::AudioBlock<float> block);
         
         void Update(juce::AudioProcessorValueTreeState& params);
-        void ComputeCoef();
+        void ComputeCoef(int sampleIdx);
         
     private:
         float sampleRate;
@@ -33,6 +34,8 @@ namespace SynthModules{
 
         SynthModules::ADSR& adsr;
         float ENV_intensity;
+        SynthModules::LFO& lfo;
+        float LFO_intensity;
     };
 }
 

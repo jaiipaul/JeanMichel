@@ -12,7 +12,7 @@ namespace SynthModules{
         ~LFO();
 
         void prepare(juce::dsp::ProcessSpec& spec);
-        void generateBlock();
+        void generateBlock(int numSamples);
         void generateSample(int sampleIdx, juce::dsp::AudioBlock<float> lfo_block);
 
         void Update(juce::AudioProcessorValueTreeState& params);

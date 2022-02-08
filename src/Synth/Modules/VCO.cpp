@@ -24,13 +24,14 @@ void VCO::prepare(juce::dsp::ProcessSpec& spec){
     vco_buffer.clear();
 
     Phase.init();
-    PulseWidth = 0.5f;
 }
 
-void VCO::generateBlock(){
+void VCO::generateBlock(int numSamples){
+    vco_buffer.setSize(Specs.numChannels, numSamples, false, false, true);
+    vco_buffer.clear();
     juce::dsp::AudioBlock<float> vco_block { vco_buffer };
     //std::cout << "Generating block of " << ModuleID << std::endl;
-    for(int s = 0; s < (int)Specs.maximumBlockSize; s++){
+    for(int s = 0; s < numSamples; s++){
         //std::cout << "Generating sample " << s << " of " << ModuleID << std::endl;
         generateSample(s, vco_block);
     }
@@ -104,6 +105,13 @@ void VCO::Update(juce::AudioProcessorValueTreeState& params){
     }else{
         Detune = 0.f;
     }   
+
+    if( params.getParameter( ModuleID +"PulseWidth") != nullptr){
+        auto& pw      = *params.getRawParameterValue( ModuleID +"PulseWidth");
+        PulseWidth = pw.load();
+    }else{
+        PulseWidth = 0.5f;
+    }  
 }
 
 void VCO::switchWaveForm(const int type){

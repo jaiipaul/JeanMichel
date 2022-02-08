@@ -28,6 +28,8 @@ set(SOURCES
     ${SOURCES_DIR}/Synth/Modules/LadderFilter.cpp
     ${SOURCES_DIR}/Synth/Modules/WaveFunctions.cpp
     # UI
+    ${SOURCES_DIR}/Synth/UI/CLookAndFeel.cpp
+    ${SOURCES_DIR}/Synth/UI/UI_func.cpp
     ${SOURCES_DIR}/Synth/UI/VCA_section.cpp
     ${SOURCES_DIR}/Synth/UI/ADSR_section.cpp
     ${SOURCES_DIR}/Synth/UI/VCO_section.cpp

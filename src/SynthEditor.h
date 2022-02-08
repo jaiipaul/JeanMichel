@@ -6,6 +6,7 @@
 #include "Synth/UI/MIX_Section.h"
 #include "Synth/UI/VCF_Section.h"
 #include "Synth/UI/LFO_section.h"
+#include "Synth/UI/CLookAndFeel.h"
 
 //==============================================================================
 class SynthEditor  : public juce::AudioProcessorEditor
@@ -21,6 +22,7 @@ public:
 private:
     
     SynthAudioProcessor& processorRef;
+    CLookAndFeel CustomLookAndFeel;
     VCA_section VCA;
     VCO_section VCOs;
     MIX_section MIX;

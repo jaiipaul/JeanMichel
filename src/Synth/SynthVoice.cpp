@@ -9,12 +9,12 @@ void SynthVoice::startNote (int midiNoteNumber, float velocity, juce::Synthesise
     VCO1.setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber));
     VCO2.setFrequency(juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber));
     ADSR1.noteOn();
-    //ADSR2.noteOn();
+    ADSR2.noteOn();
 }
 
 void SynthVoice::stopNote (float velocity, bool allowTailOff){
     ADSR1.noteOff();
-    //ADSR2.noteOff();
+    ADSR2.noteOff();
     if( !allowTailOff || (!ADSR1.isActive())){
         clearCurrentNote();
     }
@@ -35,8 +35,8 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numOu
     specs.numChannels      = numOutputChannels;
 
 
-    ADSR1.setSampleRate(sampleRate);
-    //ADSR2.setSampleRate(sampleRate);
+    ADSR1.setSampleRate(2*sampleRate);
+    ADSR2.setSampleRate(2*sampleRate);
     
     LFO1.prepare(specs);
     LFO2.prepare(specs);
@@ -47,7 +47,7 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numOu
     
     MIX.prepare(specs);
     
-    VCF.prepare(96000.f, specs.numChannels);
+    VCF.prepare(128000.f, specs.numChannels);
     
     VCA.prepare(specs);
     
@@ -56,7 +56,7 @@ void SynthVoice::prepareToPlay(double sampleRate, int samplesPerBlock, int numOu
 
 void SynthVoice::update(juce::AudioProcessorValueTreeState& _params){
     ADSR1.Update(_params);
-    //ADSR2.Update(_params);
+    ADSR2.Update(_params);
     
     LFO1.Update(_params);
     LFO2.Update(_params);
@@ -83,12 +83,12 @@ void SynthVoice::renderNextBlock (juce::AudioBuffer<float> &outputBuffer, int st
     std::vector<juce::dsp::AudioBlock<float>> VCO_blocks;
     
     juce::dsp::AudioBlock<float> audioBlock { voiceBuffer };
-    LFO1.generateBlock();
-    LFO2.generateBlock();
+    LFO1.generateBlock(numSamples);
+    LFO2.generateBlock(numSamples);
 
-    VCO0.generateBlock();
-    VCO1.generateBlock();
-    VCO2.generateBlock();
+    VCO0.generateBlock(numSamples);
+    VCO1.generateBlock(numSamples);
+    VCO2.generateBlock(numSamples);
 
     VCO_blocks.push_back(VCO0.getBlock());
     VCO_blocks.push_back(VCO1.getBlock());
@@ -100,7 +100,6 @@ void SynthVoice::renderNextBlock (juce::AudioBuffer<float> &outputBuffer, int st
     
     VCA.process(audioBlock);
     
-
     for(int channel = 0; channel < outputBuffer.getNumChannels(); channel++){
         outputBuffer.addFrom(channel, startSample, voiceBuffer, channel, 0, numSamples);
 

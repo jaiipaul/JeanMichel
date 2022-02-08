@@ -2,6 +2,7 @@
 #define _MIX_SECTION_H_
 
 #include <JuceHeader.h>
+#include "UI_func.h"
 
 class MIX_section : public juce::Component{
 public:
@@ -15,7 +16,7 @@ public:
     void resized() override;
 
 private:
-    void setSliderParams(juce::Slider& slider);
+    //void setSliderParams(juce::Slider& slider);
 
     juce::Rectangle<int> bounds;
 
@@ -24,7 +25,7 @@ private:
     juce::Slider Vol2Slider;
 
     using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
-
+//
     std::unique_ptr<SliderAttachment> Vol0Attachment;
     std::unique_ptr<SliderAttachment> Vol1Attachment;
     std::unique_ptr<SliderAttachment> Vol2Attachment;

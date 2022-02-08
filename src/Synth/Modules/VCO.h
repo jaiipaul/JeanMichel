@@ -14,7 +14,7 @@ namespace SynthModules{
         ~VCO();
 
         void prepare(juce::dsp::ProcessSpec& spec);
-        void generateBlock();
+        void generateBlock(int numSamples);
         void generateSample(int sampleIdx, juce::dsp::AudioBlock<float> vco_block);
         juce::dsp::AudioBlock<float> getBlock();
 

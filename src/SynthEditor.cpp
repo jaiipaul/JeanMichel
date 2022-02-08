@@ -8,6 +8,8 @@ SynthEditor::SynthEditor (SynthAudioProcessor& p)
     //juce::ignoreUnused (processorRef);
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
+    juce::LookAndFeel::setDefaultLookAndFeel(&CustomLookAndFeel);
+
     setSize (1024, 512);
     const auto bounds = getLocalBounds();
     VCA.initSection("ADSR1", processorRef.Params);
@@ -32,6 +34,7 @@ SynthEditor::SynthEditor (SynthAudioProcessor& p)
 
 SynthEditor::~SynthEditor()
 {
+    juce::LookAndFeel::setDefaultLookAndFeel(nullptr);
 }
 
 //==============================================================================
