@@ -69,7 +69,6 @@ void VCO_section::paint (juce::Graphics& g){
 void VCO_section::resized(){
     int boundsX = bounds.getX();
     int boundsY = bounds.getY();
-    std::cout << boundsX << "/" << boundsY << std::endl;
 
     const auto Vslider_w = 14;
     const auto Vslider_h = 110;

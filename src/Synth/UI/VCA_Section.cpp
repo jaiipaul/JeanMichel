@@ -10,6 +10,7 @@ void VCA_section::initSection(std::string ADSR_ID, juce::AudioProcessorValueTree
     VCA_ENV_intensityAttachment = CreateAttachment(params, "VCAENV_intensity", VCA_ENV_intensitySlider); 
 
     bounds = getLocalBounds();
+    setBounds(bounds);
 }
 
 void VCA_section::initSection(std::string ADSR_ID, juce::AudioProcessorValueTreeState& params, int x, int y, int w, int h){
@@ -22,6 +23,7 @@ void VCA_section::initSection(std::string ADSR_ID, juce::AudioProcessorValueTree
     VCA_ENV_intensityAttachment = CreateAttachment(params, "VCAENV_intensity", VCA_ENV_intensitySlider);  
 
     bounds = juce::Rectangle(x, y, w, h);
+    setBounds(bounds);
 }
 
 void VCA_section::paint (juce::Graphics& g){
@@ -30,16 +32,13 @@ void VCA_section::paint (juce::Graphics& g){
 }
 
 void VCA_section::resized(){
+    const auto slider_w = 14;
+    const auto slider_h = 110;
 
-    bounds = getLocalBounds();
-    const auto padding = 10;
-    const auto slider_w = bounds.getWidth() / 6 - padding;
-    const auto slider_h = bounds.getHeight()-2*padding;
+    VCA_VolumeSlider.setBounds(30, 46, slider_w, slider_h);
+    VCA_ENV_intensitySlider.setBounds(82, 46, slider_w, slider_h); 
 
-    VCA_VolumeSlider.setBounds(padding, padding, slider_w, slider_h);
-    VCA_ENV_intensitySlider.setBounds(VCA_VolumeSlider.getRight()+padding, padding, slider_w, slider_h); 
-
-    ADSR.setBounds(VCA_ENV_intensitySlider.getRight() + 2*padding, padding, 4*bounds.getWidth()/6 - padding, slider_h);
+    ADSR.setBounds(157, 46, 164, slider_h);
     ADSR.resized();
 }
 

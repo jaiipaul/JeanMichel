@@ -18,6 +18,7 @@ void VCF_section::initSection(std::string ADSR_ID, juce::AudioProcessorValueTree
 
 
     bounds = getLocalBounds();
+    setBounds(bounds);
 }
 
 void VCF_section::initSection(std::string ADSR_ID, juce::AudioProcessorValueTreeState& params, int x, int y, int w, int h){
@@ -36,6 +37,7 @@ void VCF_section::initSection(std::string ADSR_ID, juce::AudioProcessorValueTree
     VCF_ENV_intensityAttachment = CreateAttachment(params, "VCFENV_intensity", VCF_ENV_intensitySlider);  
 
     bounds = juce::Rectangle(x, y, w, h);
+    setBounds(bounds);
 }
 
 void VCF_section::paint (juce::Graphics& g){
@@ -44,23 +46,19 @@ void VCF_section::paint (juce::Graphics& g){
 }
 
 void VCF_section::resized(){
+    int boundsX = bounds.getX();
+    int boundsY = bounds.getY();
 
-    bounds = getLocalBounds();
-    const auto padding = 10;
+    const auto slider_w = 14;
+    const auto slider_h = 110;
 
-    const auto Rslider_w = bounds.getWidth()/ 3 - 2 * padding;
-    const auto Rslider_h = bounds.getHeight() - 2 * padding;
+    VCF_CutoffSlider.setBounds(18, 48, 104, 104);
+    VCF_ResonanceSlider.setBounds(147, 47, slider_w, slider_h);
+    VCF_DriveSlider.setBounds(181,  47, slider_w, slider_h);
 
-    const auto slider_w = (2*bounds.getWidth() / 3 ) / 9 - padding;
-    const auto slider_h = bounds.getHeight() - 2*padding;
-
-    VCF_CutoffSlider.setBounds(padding, padding, Rslider_w, Rslider_h);
-    VCF_ResonanceSlider.setBounds(VCF_CutoffSlider.getRight()+padding, padding, slider_w, slider_h);
-    VCF_DriveSlider.setBounds(VCF_ResonanceSlider.getRight()+padding, padding, slider_w, slider_h);
+    VCF_ENV_intensitySlider.setBounds(219,  47, slider_w, slider_h);
+    VCF_LFO_intensitySlider.setBounds(253,  47, slider_w, slider_h); 
     
-    VCF_ENV_intensitySlider.setBounds(VCF_DriveSlider.getRight()+2*padding, padding, slider_w, slider_h);
-    VCF_LFO_intensitySlider.setBounds(VCF_ENV_intensitySlider.getRight()+padding, padding, slider_w, slider_h); 
-
-    ADSR.setBounds(VCF_LFO_intensitySlider.getRight()+2*padding, padding, 4* (2*bounds.getWidth() / 3 )/9, slider_h);
-    ADSR.resized();
+    ADSR.setBounds(291, 47, 116, slider_h);
+    ADSR.resized();    
 }

@@ -15,10 +15,11 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
-private:
 
+
+private:
     juce::Rectangle<int> bounds;
-    
+
     juce::Slider AttackSlider;
     juce::Slider DecaySlider;
     juce::Slider SustainSlider;

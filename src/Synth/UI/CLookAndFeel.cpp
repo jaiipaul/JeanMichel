@@ -29,13 +29,13 @@ void CLookAndFeel::drawLinearSlider (Graphics& g, int x, int y, int width, int h
         Path backgroundTrack;
         backgroundTrack.startNewSubPath (startPoint);
         backgroundTrack.lineTo (endPoint);
-        g.setColour (juce::Colours::antiquewhite);
+        g.setColour (juce::Colours::white);
         g.strokePath (backgroundTrack, { trackWidth, PathStrokeType::curved, PathStrokeType::rounded });
 
         Path valueTrack;
         valueTrack.startNewSubPath (minPoint);
         valueTrack.lineTo (maxPoint);
-        g.setColour (juce::Colours::cornflowerblue);
+        g.setColour (juce::Colour::fromRGB(0x6e, 0xc7, 0xdf));
         g.strokePath (valueTrack, { trackWidth, PathStrokeType::curved, PathStrokeType::rounded });
 
         //g.setColour (juce::Colours::grey);
@@ -74,7 +74,7 @@ void CLookAndFeel::drawRotarySlider (Graphics& g, int x, int y, int width, int h
                                  rotaryEndAngle,
                                  true);
 
-    g.setColour (juce::Colours::antiquewhite);
+    g.setColour (juce::Colours::white);
     g.strokePath (backgroundArc, PathStrokeType (lineW, PathStrokeType::curved, PathStrokeType::rounded));
 
     if (slider.isEnabled())
@@ -89,7 +89,7 @@ void CLookAndFeel::drawRotarySlider (Graphics& g, int x, int y, int width, int h
                                 toAngle,
                                 true);
 
-        g.setColour (juce::Colours::cornflowerblue);
+        g.setColour (juce::Colour::fromRGB(0x6e, 0xc7, 0xdf));
         g.strokePath (valueArc, PathStrokeType (lineW, PathStrokeType::curved, PathStrokeType::rounded));
     }
 

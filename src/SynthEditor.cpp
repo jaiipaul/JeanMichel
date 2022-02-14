@@ -10,25 +10,25 @@ SynthEditor::SynthEditor (SynthAudioProcessor& p)
     // editor's size to whatever you need it to be.
     juce::LookAndFeel::setDefaultLookAndFeel(&CustomLookAndFeel);
 
-    setSize (1024, 512);
+    setSize (931, 512);
     const auto bounds = getLocalBounds();
-    //VCA.initSection("ADSR1", processorRef.Params);
-    //addAndMakeVisible(VCA);
+    VCA.initSection("ADSR1", processorRef.Params, 494, 327, 337, 170);
+    addAndMakeVisible(VCA);
 
     VCOs.initSection(processorRef.Params, 12, 82, 270, 480);
     addAndMakeVisible(VCOs);
 
-    //MIX.initSection("MIXER", processorRef.Params);
-    //addAndMakeVisible(MIX);
-//
-    //VCF.initSection("ADSR2", processorRef.Params);
-    //addAndMakeVisible(VCF);
-//
-    //LFO1.initSection("LFO1", processorRef.Params);
-    //addAndMakeVisible(LFO1);
-//
-    //LFO2.initSection("LFO2", processorRef.Params);
-    //addAndMakeVisible(LFO2);
+    MIX.initSection("MIXER", processorRef.Params, 288, 82, 200, 151);
+    addAndMakeVisible(MIX);
+
+    VCF.initSection("ADSR2", processorRef.Params, 494, 82, 425, 170);
+    addAndMakeVisible(VCF);
+
+    LFO1.initSection("LFO1", processorRef.Params, 288, 239, 200, 126);
+    addAndMakeVisible(LFO1);
+
+    LFO2.initSection("LFO2", processorRef.Params, 288, 371, 200, 126);
+    addAndMakeVisible(LFO2);
     
     BackGround = juce::ImageCache::getFromMemory(assets::jeanmichel_png, assets::jeanmichel_pngSize);
 }
@@ -43,13 +43,13 @@ void SynthEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     //g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-    g.drawImage(BackGround, 0, 0, 1024, 512, 0, 0, 1024, 512);
+    g.drawImage(BackGround, 0, 0, 931, 512, 0, 0, 1862, 1024);
     VCOs.paint(g);
-    //MIX.paint(g);
-    //VCA.paint(g);
-    //VCF.paint(g);
-    //LFO1.paint(g);
-    //LFO2.paint(g);
+    MIX.paint(g);
+    VCA.paint(g);
+    VCF.paint(g);
+    LFO1.paint(g);
+    LFO2.paint(g);
 }
 
 void SynthEditor::resized()
