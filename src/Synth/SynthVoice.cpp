@@ -15,7 +15,7 @@ void SynthVoice::startNote (int midiNoteNumber, float velocity, juce::Synthesise
 void SynthVoice::stopNote (float velocity, bool allowTailOff){
     ADSR1.noteOff();
     ADSR2.noteOff();
-    if( !allowTailOff || (!ADSR1.isActive())){
+    if( !allowTailOff || (!ADSR1.isActive() || !ADSR2.isActive())){
         clearCurrentNote();
     }
 }   
@@ -103,7 +103,7 @@ void SynthVoice::renderNextBlock (juce::AudioBuffer<float> &outputBuffer, int st
     for(int channel = 0; channel < outputBuffer.getNumChannels(); channel++){
         outputBuffer.addFrom(channel, startSample, voiceBuffer, channel, 0, numSamples);
 
-        if(!ADSR1.isActive()){
+        if(!ADSR1.isActive() || !ADSR2.isActive()){
             clearCurrentNote();
         }
     }

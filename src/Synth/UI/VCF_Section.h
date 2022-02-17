@@ -17,6 +17,7 @@ public:
 
 private:
     ADSR_section ADSR;
+    
     juce::Rectangle<int> bounds;
     
     juce::Slider VCF_CutoffSlider;

@@ -26,7 +26,8 @@ SynthEditor::SynthEditor (SynthAudioProcessor& p)
 
     LFO1.initSection("LFO1", processorRef.Params, 288, 239, 200, 126);
     addAndMakeVisible(LFO1);
-
+    //std::cout << LFO1.getBounds().getX()<< "|" << LFO1.getBounds().getY() << std::endl;
+    
     LFO2.initSection("LFO2", processorRef.Params, 288, 371, 200, 126);
     addAndMakeVisible(LFO2);
     
@@ -43,7 +44,7 @@ void SynthEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     //g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-    g.drawImage(BackGround, 0, 0, 931, 512, 0, 0, 1862, 1024);
+    g.drawImage(BackGround, 0, 0, 931, 512, 0, 0, BackGround.getWidth(), BackGround.getHeight());
     VCOs.paint(g);
     MIX.paint(g);
     VCA.paint(g);

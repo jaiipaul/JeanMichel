@@ -6,7 +6,7 @@
 using SliderStyle = juce::Slider::SliderStyle;
 using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
 
-void setSliderParams(juce::Component& parent, juce::Slider& slider, SliderStyle style);
+void setSliderParams(juce::Component& parent, juce::Slider& slider, std::string ID, SliderStyle style);
 
 std::unique_ptr<SliderAttachment> CreateAttachment(juce::AudioProcessorValueTreeState& params, std::string paramID, juce::Slider& slider);
 

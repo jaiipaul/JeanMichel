@@ -4,10 +4,10 @@ void VCA_section::initSection(std::string ADSR_ID, juce::AudioProcessorValueTree
     ADSR.initSection(ADSR_ID, params);
     addAndMakeVisible(ADSR);
 
-    setSliderParams(*this, VCA_VolumeSlider, juce::Slider::SliderStyle::LinearVertical);
+    setSliderParams(*this, VCA_VolumeSlider, "VCAVolume", juce::Slider::SliderStyle::LinearVertical);
     VCA_VolumeAttachment        = CreateAttachment(params, "VCAVolume", VCA_VolumeSlider);
-    setSliderParams(*this, VCA_ENV_intensitySlider, juce::Slider::SliderStyle::LinearVertical); 
-    VCA_ENV_intensityAttachment = CreateAttachment(params, "VCAENV_intensity", VCA_ENV_intensitySlider); 
+    setSliderParams(*this, VCA_ENV_intensitySlider, "VCAENV_intensity", juce::Slider::SliderStyle::LinearVertical); 
+    VCA_ENV_intensityAttachment = CreateAttachment(params, "VCAENV_intensity", VCA_ENV_intensitySlider);  
 
     bounds = getLocalBounds();
     setBounds(bounds);
@@ -17,18 +17,17 @@ void VCA_section::initSection(std::string ADSR_ID, juce::AudioProcessorValueTree
     ADSR.initSection(ADSR_ID, params);
     addAndMakeVisible(ADSR);
     
-    setSliderParams(*this, VCA_VolumeSlider, juce::Slider::SliderStyle::LinearVertical);
+    setSliderParams(*this, VCA_VolumeSlider, "VCAVolume", juce::Slider::SliderStyle::LinearVertical);
     VCA_VolumeAttachment        = CreateAttachment(params, "VCAVolume", VCA_VolumeSlider);
-    setSliderParams(*this, VCA_ENV_intensitySlider, juce::Slider::SliderStyle::LinearVertical); 
-    VCA_ENV_intensityAttachment = CreateAttachment(params, "VCAENV_intensity", VCA_ENV_intensitySlider);  
+    setSliderParams(*this, VCA_ENV_intensitySlider, "VCAENV_intensity", juce::Slider::SliderStyle::LinearVertical); 
+    VCA_ENV_intensityAttachment = CreateAttachment(params, "VCAENV_intensity", VCA_ENV_intensitySlider);
 
     bounds = juce::Rectangle(x, y, w, h);
     setBounds(bounds);
 }
 
 void VCA_section::paint (juce::Graphics& g){
-    //g.fillAll(juce::Colours::black);
-    ADSR.paint(g);
+    //ADSR.paint(g);
 }
 
 void VCA_section::resized(){

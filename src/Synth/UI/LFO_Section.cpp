@@ -1,29 +1,32 @@
 #include "LFO_Section.h"
 
-void LFO_section::initSection(std::string ModuleID, juce::AudioProcessorValueTreeState& params){
+void LFO_section::initSection(std::string _ModuleID, juce::AudioProcessorValueTreeState& params){
+    ModuleID = _ModuleID;
 
-    setSliderParams(*this, LFO_RateSlider, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    setSliderParams(*this, LFO_RateSlider, ModuleID + "Rate", juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     LFO_RateAttachment = CreateAttachment(params, ModuleID + "Rate", LFO_RateSlider);
-    setSliderParams(*this, LFO_WaveSlider, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag); 
-    LFO_WaveAttachment = CreateAttachment(params, ModuleID + "Wave", LFO_WaveSlider);
-
+    LFO_WaveSlider.initSlider(ModuleID + "Wave", params);  
+    addAndMakeVisible(LFO_WaveSlider);
+    //LFO_WaveAttachment = CreateAttachment(params, ModuleID + "Wave", LFO_WaveSlider.getSlider());
     bounds = getLocalBounds();
     setBounds(bounds);
 }
 
-void LFO_section::initSection(std::string ModuleID, juce::AudioProcessorValueTreeState& params, int x, int y, int w, int h){
+void LFO_section::initSection(std::string _ModuleID, juce::AudioProcessorValueTreeState& params, int x, int y, int w, int h){
+    ModuleID = _ModuleID;
 
-    setSliderParams(*this, LFO_RateSlider, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
+    setSliderParams(*this, LFO_RateSlider, ModuleID + "Rate", juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     LFO_RateAttachment = CreateAttachment(params, ModuleID + "Rate", LFO_RateSlider);
-    setSliderParams(*this, LFO_WaveSlider, juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag); 
-    LFO_WaveAttachment = CreateAttachment(params, ModuleID + "Wave", LFO_WaveSlider); 
+    LFO_WaveSlider.initSlider(ModuleID + "Wave", params); 
+    addAndMakeVisible(LFO_WaveSlider);
+    //LFO_WaveAttachment = CreateAttachment(params, ModuleID + "Wave", LFO_WaveSlider.getSlider());
 
     bounds = juce::Rectangle(x, y, w, h);
     setBounds(bounds);
 }
 
 void LFO_section::paint (juce::Graphics& g){
-    //g.fillAll(juce::Colours::black);
+    LFO_WaveSlider.UpdateWave();
 }
 
 void LFO_section::resized(){
@@ -31,6 +34,7 @@ void LFO_section::resized(){
     int boundsY = bounds.getY();
 
     LFO_WaveSlider.setBounds(17, 64, 45, 45);
+    LFO_WaveSlider.resized();
     LFO_RateSlider.setBounds(108, 12, 75, 75);
      
 }

@@ -65,16 +65,18 @@ void LadderFilter::Update(juce::AudioProcessorValueTreeState& params){
     auto& dr    = *params.getRawParameterValue( ModuleID +"Drive");
     auto& env_int   = *params.getRawParameterValue( ModuleID +"ENV_intensity");
     auto& lfo_int   = *params.getRawParameterValue( ModuleID +"LFO_intensity");
-    cutoff = cut.load();
+    cutoff    = cut.load();
     resonance = reso.load();
-    Drive = dr.load();
+    Drive     = dr.load();
     ENV_intensity = env_int.load();
     LFO_intensity = lfo_int.load();
 }
 void LadderFilter::ComputeCoef(int sampleIdx){
-    float Env = ENV_intensity * adsr.getNextSample() ;
+    //float Env = ENV_intensity * adsr.getNextSample() ;
     float Mod = LFO_intensity * 5000.f * lfo.getValueAt(sampleIdx);
-    float cut = (cutoff + Mod) * Env;
+    float cutMax = ENV_intensity * (25000.f - cutoff);
+    float cut = (cutoff + Mod) + cutMax*adsr.getNextSample();
+    
     float w0 =  (2.f * juce::MathConstants<float>::pi * cut);
     float x = (juce::MathConstants<float>::pi * cut)/sampleRate;
 

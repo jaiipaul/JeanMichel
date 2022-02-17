@@ -3,7 +3,7 @@
 #include <math.h>
 
 float genSAW(float x){
-    return( x/juce::MathConstants<float>::pi );
+    return( 1.f - x/juce::MathConstants<float>::pi );
 }
 
 float genTRI(float x){

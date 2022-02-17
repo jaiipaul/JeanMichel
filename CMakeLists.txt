@@ -32,6 +32,7 @@ set(SOURCES
     # UI
     ${SOURCES_DIR}/Synth/UI/CLookAndFeel.cpp
     ${SOURCES_DIR}/Synth/UI/UI_func.cpp
+    ${SOURCES_DIR}/Synth/UI/WaveSlider.cpp
     ${SOURCES_DIR}/Synth/UI/VCA_section.cpp
     ${SOURCES_DIR}/Synth/UI/ADSR_section.cpp
     ${SOURCES_DIR}/Synth/UI/VCO_section.cpp
@@ -93,7 +94,11 @@ target_compile_definitions(Synth
 juce_add_binary_data(AudioPluginData 
     NAMESPACE assets
     SOURCES 
-    ${ASSETS_DIR}/jeanmichel.png)
+    ${ASSETS_DIR}/jeanmichel.png
+    ${ASSETS_DIR}/saw_wave.png
+    ${ASSETS_DIR}/sine_wave.png
+    ${ASSETS_DIR}/square_wave.png
+    ${ASSETS_DIR}/triangle_wave.png)
 
 # `target_link_libraries` links libraries and JUCE modules to other libraries or executables. Here,
 # we're linking our executable target to the `juce::juce_audio_utils` module. Inter-module

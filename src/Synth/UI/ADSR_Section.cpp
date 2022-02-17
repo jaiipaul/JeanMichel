@@ -2,13 +2,13 @@
 
 void ADSR_section::initSection(std::string ModuleID, juce::AudioProcessorValueTreeState& params){
 
-    setSliderParams(*this, AttackSlider, juce::Slider::SliderStyle::LinearVertical);
+    setSliderParams(*this, AttackSlider, ModuleID+"Attack", juce::Slider::SliderStyle::LinearVertical);
     AttackAttachment  = CreateAttachment(params, ModuleID+"Attack", AttackSlider);
-    setSliderParams(*this, DecaySlider, juce::Slider::SliderStyle::LinearVertical);
+    setSliderParams(*this, DecaySlider, ModuleID+"Decay", juce::Slider::SliderStyle::LinearVertical);
     DecayAttachment   = CreateAttachment(params, ModuleID+"Decay", DecaySlider);
-    setSliderParams(*this, SustainSlider, juce::Slider::SliderStyle::LinearVertical);
+    setSliderParams(*this, SustainSlider, ModuleID+"Sustain", juce::Slider::SliderStyle::LinearVertical);
     SustainAttachment = CreateAttachment(params, ModuleID+"Sustain", SustainSlider);
-    setSliderParams(*this, ReleaseSlider, juce::Slider::SliderStyle::LinearVertical);
+    setSliderParams(*this, ReleaseSlider, ModuleID+"Release", juce::Slider::SliderStyle::LinearVertical);
     ReleaseAttachment = CreateAttachment(params, ModuleID+"Release", ReleaseSlider);
 
     bounds = getLocalBounds();
@@ -17,13 +17,13 @@ void ADSR_section::initSection(std::string ModuleID, juce::AudioProcessorValueTr
 
 void ADSR_section::initSection(std::string ModuleID, juce::AudioProcessorValueTreeState& params, int x, int y, int w, int h){
 
-    setSliderParams(*this, AttackSlider, juce::Slider::SliderStyle::LinearVertical);
+    setSliderParams(*this, AttackSlider, ModuleID+"Attack", juce::Slider::SliderStyle::LinearVertical);
     AttackAttachment  = CreateAttachment(params, ModuleID+"Attack", AttackSlider);
-    setSliderParams(*this, DecaySlider, juce::Slider::SliderStyle::LinearVertical);
+    setSliderParams(*this, DecaySlider, ModuleID+"Decay", juce::Slider::SliderStyle::LinearVertical);
     DecayAttachment   = CreateAttachment(params, ModuleID+"Decay", DecaySlider);
-    setSliderParams(*this, SustainSlider, juce::Slider::SliderStyle::LinearVertical);
+    setSliderParams(*this, SustainSlider, ModuleID+"Sustain", juce::Slider::SliderStyle::LinearVertical);
     SustainAttachment = CreateAttachment(params, ModuleID+"Sustain", SustainSlider);
-    setSliderParams(*this, ReleaseSlider, juce::Slider::SliderStyle::LinearVertical);
+    setSliderParams(*this, ReleaseSlider, ModuleID+"Release", juce::Slider::SliderStyle::LinearVertical);
     ReleaseAttachment = CreateAttachment(params, ModuleID+"Release", ReleaseSlider);
 
     bounds = juce::Rectangle(x, y, w, h);

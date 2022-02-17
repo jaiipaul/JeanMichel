@@ -2,12 +2,12 @@
 
 void MIX_section::initSection(std::string ModuleID, juce::AudioProcessorValueTreeState& params){
 
-    setSliderParams(*this, Vol0Slider, juce::Slider::SliderStyle::LinearVertical);
+    setSliderParams(*this, Vol0Slider, ModuleID+"Volume0", juce::Slider::SliderStyle::LinearVertical);
     Vol0Attachment = CreateAttachment(params, ModuleID+"Volume0", Vol0Slider);
-    setSliderParams(*this, Vol1Slider, juce::Slider::SliderStyle::LinearVertical);
+    setSliderParams(*this, Vol1Slider, ModuleID+"Volume1", juce::Slider::SliderStyle::LinearVertical);
     Vol1Attachment = CreateAttachment(params, ModuleID+"Volume1", Vol1Slider);
-    setSliderParams(*this, Vol2Slider, juce::Slider::SliderStyle::LinearVertical);
-    Vol2Attachment = CreateAttachment(params, ModuleID+"Volume2", Vol2Slider);       
+    setSliderParams(*this, Vol2Slider, ModuleID+"Volume2", juce::Slider::SliderStyle::LinearVertical);
+    Vol2Attachment = CreateAttachment(params, ModuleID+"Volume2", Vol2Slider);         
 
     bounds = getLocalBounds();
     setBounds(bounds);
@@ -15,11 +15,11 @@ void MIX_section::initSection(std::string ModuleID, juce::AudioProcessorValueTre
 
 void MIX_section::initSection(std::string ModuleID, juce::AudioProcessorValueTreeState& params, int x, int y, int w, int h){
 
-    setSliderParams(*this, Vol0Slider, juce::Slider::SliderStyle::LinearVertical);
+    setSliderParams(*this, Vol0Slider, ModuleID+"Volume0", juce::Slider::SliderStyle::LinearVertical);
     Vol0Attachment = CreateAttachment(params, ModuleID+"Volume0", Vol0Slider);
-    setSliderParams(*this, Vol1Slider, juce::Slider::SliderStyle::LinearVertical);
+    setSliderParams(*this, Vol1Slider, ModuleID+"Volume1", juce::Slider::SliderStyle::LinearVertical);
     Vol1Attachment = CreateAttachment(params, ModuleID+"Volume1", Vol1Slider);
-    setSliderParams(*this, Vol2Slider, juce::Slider::SliderStyle::LinearVertical);
+    setSliderParams(*this, Vol2Slider, ModuleID+"Volume2", juce::Slider::SliderStyle::LinearVertical);
     Vol2Attachment = CreateAttachment(params, ModuleID+"Volume2", Vol2Slider);    
     
 
