@@ -1,5 +1,4 @@
 #include "UI_func.h"
-#include "WaveSlider.h"
 
 void setSliderParams(juce::Component& parent, juce::Slider& slider, std::string ID, SliderStyle style){
         slider.setComponentID(ID);

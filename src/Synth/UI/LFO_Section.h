@@ -3,7 +3,7 @@
 
 #include <JuceHeader.h>
 #include "UI_func.h"
-#include "WaveSlider.h"
+#include "ImageSlider.h"
 
 class LFO_section : public juce::Component{
 public:
@@ -24,11 +24,10 @@ private:
     int waveform;
 
     juce::Slider LFO_RateSlider;
-    juce::WaveSlider LFO_WaveSlider;
+    juce::ImageSlider LFO_WaveSlider;
 
     using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
 
     std::unique_ptr<SliderAttachment> LFO_RateAttachment;
-    //std::unique_ptr<SliderAttachment> LFO_WaveAttachment;
 };
 #endif // _LFO_SECTION_H_

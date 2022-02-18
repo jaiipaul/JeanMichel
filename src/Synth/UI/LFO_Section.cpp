@@ -5,7 +5,7 @@ void LFO_section::initSection(std::string _ModuleID, juce::AudioProcessorValueTr
 
     setSliderParams(*this, LFO_RateSlider, ModuleID + "Rate", juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     LFO_RateAttachment = CreateAttachment(params, ModuleID + "Rate", LFO_RateSlider);
-    LFO_WaveSlider.initSlider(ModuleID + "Wave", params);  
+    LFO_WaveSlider.initSlider(ModuleID + "Wave", params, assets::waves_png, assets::waves_pngSize, 256, 256, 4);  
     addAndMakeVisible(LFO_WaveSlider);
     //LFO_WaveAttachment = CreateAttachment(params, ModuleID + "Wave", LFO_WaveSlider.getSlider());
     bounds = getLocalBounds();
@@ -17,7 +17,7 @@ void LFO_section::initSection(std::string _ModuleID, juce::AudioProcessorValueTr
 
     setSliderParams(*this, LFO_RateSlider, ModuleID + "Rate", juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     LFO_RateAttachment = CreateAttachment(params, ModuleID + "Rate", LFO_RateSlider);
-    LFO_WaveSlider.initSlider(ModuleID + "Wave", params); 
+    LFO_WaveSlider.initSlider(ModuleID + "Wave", params, assets::waves_png, assets::waves_pngSize, 256, 256, 4); 
     addAndMakeVisible(LFO_WaveSlider);
     //LFO_WaveAttachment = CreateAttachment(params, ModuleID + "Wave", LFO_WaveSlider.getSlider());
 
@@ -26,7 +26,7 @@ void LFO_section::initSection(std::string _ModuleID, juce::AudioProcessorValueTr
 }
 
 void LFO_section::paint (juce::Graphics& g){
-    LFO_WaveSlider.UpdateWave();
+    LFO_WaveSlider.Update();
 }
 
 void LFO_section::resized(){

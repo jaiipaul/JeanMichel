@@ -2,15 +2,15 @@
 #include <BinaryData.h>
 
 void VCO_section::initSection(juce::AudioProcessorValueTreeState& params){
-    SUB_WaveSlider.initSlider("SUB_VCOWave", params);
+    SUB_WaveSlider.initSlider("SUB_VCOWave", params, assets::waves_png, assets::waves_pngSize, 256, 256, 4);
     addAndMakeVisible(SUB_WaveSlider);
-    //SUB_WaveAttachment                = CreateAttachment(params, "SUB_VCOWave", SUB_WaveSlider.getSlider());
-    setSliderParams(*this, SUB_OctaveSlider, "SUB_VCOOctaveDown", juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    SUB_OctaveAttachment              = CreateAttachment(params, "SUB_VCOOctaveDown", SUB_OctaveSlider); 
 
-    VCO1_WaveSlider.initSlider("VCO1Wave", params);
+    SUB_OctaveSlider.initSlider("SUB_VCOOctaveDown", params, assets::octaves_png, assets::octaves_pngSize, 256, 256, 2);
+    addAndMakeVisible(SUB_OctaveSlider); 
+
+    VCO1_WaveSlider.initSlider("VCO1Wave", params, assets::waves_png, assets::waves_pngSize, 256, 256, 4);
     addAndMakeVisible(VCO1_WaveSlider);
-    //VCO1_WaveAttachment               =  CreateAttachment(params, "VCO1Wave", VCO1_WaveSlider.getSlider());
+
     setSliderParams(*this, VCO1_PulseWidthSlider, "VCO1PulseWidth", juce::Slider::SliderStyle::LinearVertical);
     VCO1_PulseWidthAttachment         = CreateAttachment(params, "VCO1PulseWidth", VCO1_PulseWidthSlider);
     setSliderParams(*this, VCO1_LFO_Freq_intensitySlider, "VCO1LFO_Freq_intensity", juce::Slider::SliderStyle::LinearVertical);
@@ -18,9 +18,9 @@ void VCO_section::initSection(juce::AudioProcessorValueTreeState& params){
     setSliderParams(*this, VCO1_LFO_Pw_intensitySlider, "VCO1LFO_Pw_intensity", juce::Slider::SliderStyle::LinearVertical);
     VCO1_LFO_Pw_intensityAttachment   = CreateAttachment(params, "VCO1LFO_Pw_intensity", VCO1_LFO_Pw_intensitySlider);
 
-    VCO2_WaveSlider.initSlider("VCO2Wave", params);
+    VCO2_WaveSlider.initSlider("VCO2Wave", params, assets::waves_png, assets::waves_pngSize, 256, 256, 4);
     addAndMakeVisible(VCO2_WaveSlider);
-    //VCO2_WaveAttachment               = CreateAttachment(params, "VCO2Wave", VCO2_WaveSlider.getSlider());
+
     setSliderParams(*this, VCO2_PulseWidthSlider, "VCO2PulseWidth", juce::Slider::SliderStyle::LinearVertical);
     VCO2_PulseWidthAttachment         = CreateAttachment(params, "VCO2PulseWidth", VCO2_PulseWidthSlider);
     setSliderParams(*this, VCO2_LFO_Freq_intensitySlider, "VCO2LFO_Freq_intensity", juce::Slider::SliderStyle::LinearVertical);
@@ -35,16 +35,15 @@ void VCO_section::initSection(juce::AudioProcessorValueTreeState& params){
 }
 
 void VCO_section::initSection(juce::AudioProcessorValueTreeState& params, int x, int y, int w, int h){
-    SUB_WaveSlider.initSlider("SUB_VCOWave", params);
+    SUB_WaveSlider.initSlider("SUB_VCOWave", params, assets::waves_png, assets::waves_pngSize, 256, 256, 4);
     addAndMakeVisible(SUB_WaveSlider);
 
-    //SUB_WaveAttachment                = CreateAttachment(params, "SUB_VCOWave", SUB_WaveSlider.getSlider());
-    setSliderParams(*this, SUB_OctaveSlider, "SUB_VCOOctaveDown", juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
-    SUB_OctaveAttachment              = CreateAttachment(params, "SUB_VCOOctaveDown", SUB_OctaveSlider); 
+    SUB_OctaveSlider.initSlider("SUB_VCOOctaveDown", params, assets::octaves_png, assets::octaves_pngSize, 256, 256, 2);
+    addAndMakeVisible(SUB_OctaveSlider); 
 
-    VCO1_WaveSlider.initSlider("VCO1Wave", params);
+    VCO1_WaveSlider.initSlider("VCO1Wave", params, assets::waves_png, assets::waves_pngSize, 256, 256, 4);
     addAndMakeVisible(VCO1_WaveSlider);
-    //VCO1_WaveAttachment               =  CreateAttachment(params, "VCO1Wave", VCO1_WaveSlider.getSlider());
+
     setSliderParams(*this, VCO1_PulseWidthSlider, "VCO1PulseWidth", juce::Slider::SliderStyle::LinearVertical);
     VCO1_PulseWidthAttachment         = CreateAttachment(params, "VCO1PulseWidth", VCO1_PulseWidthSlider);
     setSliderParams(*this, VCO1_LFO_Freq_intensitySlider, "VCO1LFO_Freq_intensity", juce::Slider::SliderStyle::LinearVertical);
@@ -52,9 +51,9 @@ void VCO_section::initSection(juce::AudioProcessorValueTreeState& params, int x,
     setSliderParams(*this, VCO1_LFO_Pw_intensitySlider, "VCO1LFO_Pw_intensity", juce::Slider::SliderStyle::LinearVertical);
     VCO1_LFO_Pw_intensityAttachment   = CreateAttachment(params, "VCO1LFO_Pw_intensity", VCO1_LFO_Pw_intensitySlider);
 
-    VCO2_WaveSlider.initSlider("VCO2Wave", params);
+    VCO2_WaveSlider.initSlider("VCO2Wave", params, assets::waves_png, assets::waves_pngSize, 256, 256, 4);
     addAndMakeVisible(VCO2_WaveSlider);
-    //VCO2_WaveAttachment               = CreateAttachment(params, "VCO2Wave", VCO2_WaveSlider.getSlider());
+
     setSliderParams(*this, VCO2_PulseWidthSlider, "VCO2PulseWidth", juce::Slider::SliderStyle::LinearVertical);
     VCO2_PulseWidthAttachment         = CreateAttachment(params, "VCO2PulseWidth", VCO2_PulseWidthSlider);
     setSliderParams(*this, VCO2_LFO_Freq_intensitySlider, "VCO2LFO_Freq_intensity", juce::Slider::SliderStyle::LinearVertical);
@@ -69,9 +68,10 @@ void VCO_section::initSection(juce::AudioProcessorValueTreeState& params, int x,
 }
 
 void VCO_section::paint (juce::Graphics& g){
-    SUB_WaveSlider.UpdateWave();
-    VCO1_WaveSlider.UpdateWave();
-    VCO2_WaveSlider.UpdateWave();
+    SUB_WaveSlider.Update();
+    SUB_OctaveSlider.Update();
+    VCO1_WaveSlider.Update();
+    VCO2_WaveSlider.Update();
 }
 
 void VCO_section::resized(){
