@@ -7,16 +7,18 @@
 #include "Synth/UI/VCF_Section.h"
 #include "Synth/UI/LFO_section.h"
 #include "Synth/UI/CLookAndFeel.h"
+#include "Synth/UI/Meter.h"
 #include <BinaryData.h>
 
 //==============================================================================
-class SynthEditor  : public juce::AudioProcessorEditor
+class SynthEditor  : public juce::AudioProcessorEditor, public juce::Timer
 {
 public:
     explicit SynthEditor (SynthAudioProcessor&);
     ~SynthEditor() override;
 
     //==============================================================================
+    void timerCallback() override;
     void paint (juce::Graphics&) override;
     void resized() override;
 
@@ -26,6 +28,10 @@ private:
     
     SynthAudioProcessor& processorRef;
     CLookAndFeel CustomLookAndFeel;
+    
+    juce::Meter leftLevelMeter;
+    juce::Meter rightLevelMeter;
+
     VCA_section VCA;
     VCO_section VCOs;
     MIX_section MIX;

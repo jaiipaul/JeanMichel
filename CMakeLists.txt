@@ -33,6 +33,7 @@ set(SOURCES
     ${SOURCES_DIR}/Synth/UI/CLookAndFeel.cpp
     ${SOURCES_DIR}/Synth/UI/UI_func.cpp
     ${SOURCES_DIR}/Synth/UI/ImageSlider.cpp
+    ${SOURCES_DIR}/Synth/UI/Meter.cpp
     ${SOURCES_DIR}/Synth/UI/VCA_section.cpp
     ${SOURCES_DIR}/Synth/UI/ADSR_section.cpp
     ${SOURCES_DIR}/Synth/UI/VCO_section.cpp
@@ -59,7 +60,7 @@ juce_add_plugin(Synth
     PLUGIN_CODE Dem0                            # A unique four-character plugin id with exactly one upper-case character
                                                 # GarageBand 10.3 requires the first letter to be upper-case, and the remaining letters to be lower-case
     FORMATS VST3 Standalone                  # The formats to build. Other valid formats are: AAX Unity VST AU AUv3
-    PRODUCT_NAME "Synth")        # The name of the final executable, which can differ from the target name
+    PRODUCT_NAME "Jean-Michel")        # The name of the final executable, which can differ from the target name
 
 
 juce_generate_juce_header(Synth)

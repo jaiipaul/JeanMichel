@@ -139,6 +139,6 @@ void VCO::switchWaveForm(const int type){
 }
 
 void VCO::setFrequency(float freq){
-    Frequency = freq* std::pow(2.f, Octave);
+    Frequency = freq * std::pow(2.f, Octave);
     //std::cout << Frequency << std::endl;
 }

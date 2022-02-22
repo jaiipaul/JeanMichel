@@ -44,12 +44,13 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
     
+    float getRMSvalue(const int channel);
     // PARAMETERS :
     
     static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     juce::AudioProcessorValueTreeState Params{ *this, nullptr, "Params", createParameterLayout() };
 private:
-
+    float leftRMSlvl, rightRMSlvl;
     juce::Synthesiser Synth;
     //==============================================================================
 };

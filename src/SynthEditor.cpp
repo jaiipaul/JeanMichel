@@ -31,7 +31,21 @@ SynthEditor::SynthEditor (SynthAudioProcessor& p)
     LFO2.initSection("LFO2", processorRef.Params, 288, 371, 200, 126);
     addAndMakeVisible(LFO2);
     
+    leftLevelMeter.setStyle(juce::Meter::MeterStyle::VerticalNoBack);
+    leftLevelMeter.setMeterColour(juce::Colour::fromRGB(0x6e, 0xc7, 0xdf));
+    leftLevelMeter.setCornerSize(5.f);
+    leftLevelMeter.setBounds(840, 327, 10, 170);
+    addAndMakeVisible(leftLevelMeter);
+
+    rightLevelMeter.setStyle(juce::Meter::MeterStyle::VerticalNoBack);
+    rightLevelMeter.setMeterColour(juce::Colour::fromRGB(0x6e, 0xc7, 0xdf));
+    rightLevelMeter.setCornerSize(5.f);
+    rightLevelMeter.setBounds(860, 327, 10, 170);
+    addAndMakeVisible(rightLevelMeter);
+
     BackGround = juce::ImageCache::getFromMemory(assets::jeanmichel_png, assets::jeanmichel_pngSize);
+
+    startTimerHz(24);
 }
 
 SynthEditor::~SynthEditor()
@@ -40,17 +54,27 @@ SynthEditor::~SynthEditor()
 }
 
 //==============================================================================
+void SynthEditor::timerCallback(){
+    leftLevelMeter.setLevel(processorRef.getRMSvalue(0));
+    rightLevelMeter.setLevel(processorRef.getRMSvalue(1));
+    
+    leftLevelMeter.repaint();
+    rightLevelMeter.repaint();
+}
+
 void SynthEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     //g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
     g.drawImage(BackGround, 0, 0, 931, 512, 0, 0, BackGround.getWidth(), BackGround.getHeight());
-    VCOs.paint(g);
-    MIX.paint(g);
-    VCA.paint(g);
-    VCF.paint(g);
-    LFO1.paint(g);
-    LFO2.paint(g);
+    //VCOs.paint(g);
+    //MIX.paint(g);
+    //VCA.paint(g);
+    //VCF.paint(g);
+    //LFO1.paint(g);
+    //LFO2.paint(g);
+    //leftLevelMeter.paint(g);
+    //rightLevelMeter.paint(g);
 }
 
 void SynthEditor::resized()

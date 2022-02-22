@@ -145,6 +145,9 @@ void SynthAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     }
     
     Synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+    
+    leftRMSlvl  = Decibels::gainToDecibels(buffer.getRMSLevel(0, 0, buffer.getNumSamples()));
+    rightRMSlvl = Decibels::gainToDecibels(buffer.getRMSLevel(1, 0, buffer.getNumSamples()));
 }
 
 //==============================================================================
@@ -174,6 +177,16 @@ void SynthAudioProcessor::setStateInformation (const void* data, int sizeInBytes
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
     juce::ignoreUnused (data, sizeInBytes);
+}
+
+
+float SynthAudioProcessor::getRMSvalue(const int channel){
+    jassert(channel == 0 || channel == 1);
+    if(channel == 0){
+        return leftRMSlvl;
+    }else if(channel == 1){
+        return rightRMSlvl;
+    }
 }
 
 // PARAMETERS ==================================================================
