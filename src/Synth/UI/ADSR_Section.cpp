@@ -26,7 +26,7 @@ void ADSR_section::initSection(std::string ModuleID, juce::AudioProcessorValueTr
     setSliderParams(*this, ReleaseSlider, ModuleID+"Release", juce::Slider::SliderStyle::LinearVertical);
     ReleaseAttachment = CreateAttachment(params, ModuleID+"Release", ReleaseSlider);
 
-    bounds = juce::Rectangle(x, y, w, h);
+    bounds = juce::Rectangle<int>(x, y, w, h);
     setBounds(bounds);
 }
 

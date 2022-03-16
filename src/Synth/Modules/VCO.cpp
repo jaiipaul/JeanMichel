@@ -3,12 +3,6 @@
 
 using namespace SynthModules;
 
-VCO::VCO(std::string _ModuleID)
-    : lfo(SynthModules::LFO("dump")){
-    ModuleID = _ModuleID;
-    hasLFO = false;
-}
-
 VCO::VCO(std::string _ModuleID, SynthModules::LFO& _lfo)
     : lfo(_lfo) {
     ModuleID = _ModuleID;

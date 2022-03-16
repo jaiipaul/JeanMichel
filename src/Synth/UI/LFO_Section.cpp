@@ -1,4 +1,5 @@
 #include "LFO_Section.h"
+#include <BinaryData.h>
 
 void LFO_section::initSection(std::string _ModuleID, juce::AudioProcessorValueTreeState& params){
     ModuleID = _ModuleID;
@@ -21,7 +22,7 @@ void LFO_section::initSection(std::string _ModuleID, juce::AudioProcessorValueTr
     addAndMakeVisible(LFO_WaveSlider);
     //LFO_WaveAttachment = CreateAttachment(params, ModuleID + "Wave", LFO_WaveSlider.getSlider());
 
-    bounds = juce::Rectangle(x, y, w, h);
+    bounds = juce::Rectangle<int>(x, y, w, h);
     setBounds(bounds);
 }
 

@@ -9,7 +9,6 @@ namespace SynthModules{
     class VCO : public Module{
 
     public:
-        VCO(std::string _ModuleID);
         VCO(std::string _ModuleID, SynthModules::LFO& _lfo);
         ~VCO();
 

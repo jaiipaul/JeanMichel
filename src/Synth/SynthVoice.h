@@ -33,7 +33,7 @@ private:
     SynthModules::LFO LFO1{"LFO1"};
     SynthModules::LFO LFO2{"LFO2"};
 
-    SynthModules::VCO VCO0{"SUB_VCO"};
+    SynthModules::VCO VCO0{"SUB_VCO", LFO1};
     SynthModules::VCO VCO1{"VCO1", LFO1};
     SynthModules::VCO VCO2{"VCO2", LFO1};
 

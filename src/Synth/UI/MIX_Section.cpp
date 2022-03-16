@@ -23,7 +23,7 @@ void MIX_section::initSection(std::string ModuleID, juce::AudioProcessorValueTre
     Vol2Attachment = CreateAttachment(params, ModuleID+"Volume2", Vol2Slider);    
     
 
-    bounds = juce::Rectangle(x, y, w, h);
+    bounds = juce::Rectangle<int>(x, y, w, h);
     setBounds(bounds);
 }
 

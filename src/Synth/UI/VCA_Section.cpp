@@ -9,7 +9,7 @@ void VCA_section::initSection(std::string ADSR_ID, juce::AudioProcessorValueTree
     setSliderParams(*this, VCA_ENV_intensitySlider, "VCAENV_intensity", juce::Slider::SliderStyle::LinearVertical); 
     VCA_ENV_intensityAttachment = CreateAttachment(params, "VCAENV_intensity", VCA_ENV_intensitySlider);  
 
-    bounds = getLocalBounds();
+    bounds = getLocalBounds( );
     setBounds(bounds);
 }
 
@@ -22,7 +22,7 @@ void VCA_section::initSection(std::string ADSR_ID, juce::AudioProcessorValueTree
     setSliderParams(*this, VCA_ENV_intensitySlider, "VCAENV_intensity", juce::Slider::SliderStyle::LinearVertical); 
     VCA_ENV_intensityAttachment = CreateAttachment(params, "VCAENV_intensity", VCA_ENV_intensitySlider);
 
-    bounds = juce::Rectangle(x, y, w, h);
+    bounds = juce::Rectangle<int>(x, y, w, h);
     setBounds(bounds);
 }
 

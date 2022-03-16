@@ -63,7 +63,7 @@ void VCO_section::initSection(juce::AudioProcessorValueTreeState& params, int x,
     setSliderParams(*this, VCO2_DetuneSlider, "VCO2Detune", juce::Slider::SliderStyle::LinearVertical);
     VCO2_DetuneAttachment             = CreateAttachment(params, "VCO2Detune", VCO2_DetuneSlider);
 
-    bounds = juce::Rectangle(x, y, w, h);
+    bounds = juce::Rectangle<int>(x, y, w, h);
     setBounds(bounds);
 }
 

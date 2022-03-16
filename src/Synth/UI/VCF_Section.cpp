@@ -36,7 +36,7 @@ void VCF_section::initSection(std::string ADSR_ID, juce::AudioProcessorValueTree
     setSliderParams(*this, VCF_ENV_intensitySlider, "VCFENV_intensity", juce::Slider::SliderStyle::LinearVertical); 
     VCF_ENV_intensityAttachment = CreateAttachment(params, "VCFENV_intensity", VCF_ENV_intensitySlider);  
 
-    bounds = juce::Rectangle(x, y, w, h);
+    bounds = juce::Rectangle<int>   (x, y, w, h);
     setBounds(bounds);
 }
 
