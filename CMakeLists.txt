@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
-project(Synth VERSION 0.0.1)
-set(CMAKE_CXX_STANDARD 17)
+project(JeanMichel LANGUAGES CXX VERSION 0.0.1)
+set(CMAKE_CXX_STANDARD 17) 
 
 set(EXTERNALS
     "${PROJECT_SOURCE_DIR}/ext")
@@ -8,15 +8,15 @@ add_subdirectory(${EXTERNALS}/JUCE)
 
 set(OUTPUT_DIR "${PROJECT_SOURCE_DIR}/bin")
 set(BUILD_SHARED_LIBS OFF)
-
+ 
 set(BUILD_DIR
-    "${PROJECT_SOURCE_DIR}/build/")
+    "${PROJECT_SOURCE_DIR}/build")
 set(ASSETS_DIR
-    "${PROJECT_SOURCE_DIR}/assets/")
+    "${PROJECT_SOURCE_DIR}/assets")
 set(SOURCES_DIR        
-    "${PROJECT_SOURCE_DIR}/src/")
+    "${PROJECT_SOURCE_DIR}/src")
 set(INCLUDES_DIR
-    "${PROJECT_SOURCE_DIR}/src/")
+    "${PROJECT_SOURCE_DIR}/src")
 set(SOURCES
     ${SOURCES_DIR}/SynthEditor.cpp
     ${SOURCES_DIR}/SynthAudioProcessor.cpp
@@ -45,12 +45,12 @@ set(SOURCES
     ${SOURCES_DIR}/Synth/SynthSound.cpp
 )
 
-juce_add_plugin(Synth
+juce_add_plugin(JeanMichel
     # VERSION ...                               # Set this if the plugin version is different to the project version
-    ICON_BIG "assets/buttonSqrGreen.png"                              # ICON_* arguments specify a path to an image file to use as an icon for the Standalone
-    ICON_SMALL "assets/buttonSqrGreen.png"
+    #ICON_BIG "assets/buttonSqrGreen.png"                              # ICON_* arguments specify a path to an image file to use as an icon for the Standalone
+    #ICON_SMALL "assets/buttonSqrGreen.png"
     # COMPANY_NAME ...                          # Specify the name of the plugin's author
-    IS_SYNTH TRUE                      # Is this a synth or an effect?
+    # IS_SYNTH TRUE                      # Is this a synth or an effect?
     NEEDS_MIDI_INPUT TRUE              # Does the plugin need midi input?
     # NEEDS_MIDI_OUTPUT TRUE/FALSE              # Does the plugin need midi output?
     # IS_MIDI_EFFECT TRUE/FALSE                 # Is this plugin a MIDI effect?
@@ -63,22 +63,22 @@ juce_add_plugin(Synth
     PRODUCT_NAME "Jean-Michel")        # The name of the final executable, which can differ from the target name
 
 
-juce_generate_juce_header(Synth)
+juce_generate_juce_header(JeanMichel)
 
 # `target_sources` adds source files to a target. We pass the target that needs the sources as the
 # first argument, then a visibility parameter for the sources which should normally be PRIVATE.
 # Finally, we supply a list of source files that will be built into the target. This is a standard
 # CMake command.
 
-target_sources(Synth
+target_sources(JeanMichel
     PRIVATE ${SOURCES})
 
-target_include_directories(Synth
-    PUBLIC ${INCLUDES}
-    PUBLIC ${INCLUDES}/Synth/
-    PUBLIC ${INCLUDES}/Synth/Modules)
+# target_include_directories(JeanMichel
+    # PRIVATE "${INCLUDES}"
+    # PRIVATE "${INCLUDES}/Synth/"
+    # PRIVATE "${INCLUDES}/Synth/Modules")
 
-target_compile_definitions(Synth
+target_compile_definitions(JeanMichel
     PUBLIC
         # JUCE_WEB_BROWSER and JUCE_USE_CURL would be on by default, but you might not need them.
         JUCE_WEB_BROWSER=0  # If you remove this, add `NEEDS_WEB_BROWSER TRUE` to the `juce_add_plugin` call
@@ -105,7 +105,7 @@ juce_add_binary_data(AudioPluginData
 # linked automatically. If we'd generated a binary data target above, we would need to link to it
 # here too. This is a standard CMake command.
 
-target_link_libraries(Synth
+target_link_libraries(JeanMichel
     PRIVATE
         AudioPluginData           # If we'd created a binary data target, we'd link to it here
         juce::juce_audio_utils

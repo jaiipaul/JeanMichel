@@ -1,7 +1,10 @@
 if(!'build'){
     mkdir build 
 }
-cmake -G "Visual Studio 17 2022" -S . -B .\build
+$env:CC="clang-cl.exe"
+$env:CXX="clang-cl.exe"
+cmake -G "NMake Makefiles" -S . -B .\build 
 
 
 
+    
